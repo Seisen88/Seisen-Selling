@@ -1,0 +1,100 @@
+"use client";
+
+import { resolveThumbnailUrl, formatFileSize, getFileStatus } from "@/lib/utils";
+import type { FileRecord } from "@/lib/types";
+
+export default function GameCard({
+  file,
+  onClick,
+}: {
+  file: FileRecord;
+  onClick: () => void;
+}) {
+  const thumbUrl = resolveThumbnailUrl(file.thumbnail_url);
+  const status = getFileStatus(file.upload_date, file.updated_at);
+
+  return (
+    <button
+      onClick={onClick}
+      className="group relative flex flex-col rounded-2xl bg-[#0c0c14] border border-[#1e1e30] hover:border-purple-500/40 transition-all duration-300 hover:-translate-y-1 cursor-pointer text-left w-full h-full z-10 hover:z-50"
+    >
+      {/* Status Badge - positioned floating outside the card */}
+      {status && (
+        <div className={`absolute -top-3 -right-3 z-20 px-3 py-1.5 rounded-lg font-extrabold text-[10px] tracking-wider shadow-lg ${
+          status === "NEW" 
+            ? "bg-[#65d045] text-black shadow-[#65d045]/30" 
+            : "bg-blue-500 text-white shadow-blue-500/30"
+        }`}>
+          {/* Glowing ray light effect */}
+          <div className={`absolute inset-0 rounded-lg blur-md opacity-60 -z-10 ${
+            status === "NEW" ? "bg-[#65d045]" : "bg-blue-500"
+          }`} />
+          <div className={`absolute -inset-1 rounded-lg blur-lg opacity-20 group-hover:-inset-2 group-hover:blur-xl group-hover:opacity-60 transition-all duration-500 -z-10 ${
+            status === "NEW" ? "bg-[#65d045]" : "bg-blue-500"
+          }`} />
+          
+          <span className="relative z-10">{status}</span>
+        </div>
+      )}
+
+      {/* Inner Mask for contents */}
+      <div className="relative w-full h-full flex flex-col overflow-hidden rounded-[15px]">
+        {/* Light ray bar */}
+        <div className="h-1.5 w-full relative bg-purple-500 shrink-0">
+          <div className="absolute inset-0 blur-md opacity-80 bg-purple-500" />
+          <div className="absolute -bottom-4 left-0 right-0 h-8 blur-xl opacity-20 group-hover:opacity-50 transition-opacity duration-500 bg-purple-500" />
+        </div>
+
+        {/* Title bar */}
+        <div className="px-3 py-2 bg-[#0f0f1e] border-b border-[#1e1e30]">
+          <p className="text-[13px] font-semibold text-white truncate">
+            {file.file_name}
+          </p>
+        </div>
+
+      {/* Thumbnail */}
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#08080f]">
+        {file.genre && (
+          <div className="absolute top-2 left-2 z-10">
+            <span className="bg-purple-600/80 backdrop-blur-md border border-purple-400/30 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md shadow-lg shadow-black/50">
+              {file.genre}
+            </span>
+          </div>
+        )}
+        {thumbUrl ? (
+          <img
+            src={thumbUrl}
+            alt={file.file_name}
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-4xl">🎮</span>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="px-3 py-2.5 flex items-center justify-between bg-[#0a0a16]">
+        <span className="text-[11px] text-gray-500">
+          {formatFileSize(file.file_size)}
+        </span>
+        <span className="text-[11px] text-purple-400 font-medium flex items-center gap-1 group-hover:text-purple-300 transition-colors">
+          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+              clipRule="evenodd"
+            />
+          </svg>
+          more
+        </span>
+      </div>
+     </div>
+    </button>
+  );
+}
