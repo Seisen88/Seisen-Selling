@@ -21,19 +21,21 @@ export default function GameCard({
       {/* Status Badge - positioned floating outside the card */}
       {status && (
         <div className={`absolute -top-3 -right-3 z-20 px-3 py-1.5 rounded-lg font-extrabold text-[10px] tracking-wider shadow-lg ${
-          status === "NEW" 
+          file.status === "old"
+            ? "bg-gray-600 text-white shadow-gray-600/30"
+            : status === "NEW" 
             ? "bg-[#65d045] text-black shadow-[#65d045]/30" 
             : "bg-blue-500 text-white shadow-blue-500/30"
         }`}>
           {/* Glowing ray light effect */}
           <div className={`absolute inset-0 rounded-lg blur-md opacity-60 -z-10 ${
-            status === "NEW" ? "bg-[#65d045]" : "bg-blue-500"
+            file.status === "old" ? "bg-gray-600" : status === "NEW" ? "bg-[#65d045]" : "bg-blue-500"
           }`} />
           <div className={`absolute -inset-1 rounded-lg blur-lg opacity-20 group-hover:-inset-2 group-hover:blur-xl group-hover:opacity-60 transition-all duration-500 -z-10 ${
-            status === "NEW" ? "bg-[#65d045]" : "bg-blue-500"
+            file.status === "old" ? "bg-gray-600" : status === "NEW" ? "bg-[#65d045]" : "bg-blue-500"
           }`} />
           
-          <span className="relative z-10">{status}</span>
+          <span className="relative z-10">{file.status === "old" ? "OLD VERSION" : status}</span>
         </div>
       )}
 

@@ -44,6 +44,7 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
   const [category, setCategory] = useState(file?.category || CATEGORIES[0]);
   const [parentId, setParentId] = useState(file?.parent_id || "");
   const [isBundle, setIsBundle] = useState(file?.is_bundle || false);
+  const [status, setStatus] = useState(file?.status || "active");
   const [description, setDescription] = useState(file?.description || "");
   const [genre, setGenre] = useState(file?.genre || "");
   const [thumbnailUrl, setThumbnailUrl] = useState(file?.thumbnail_url || "");
@@ -101,6 +102,7 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
       category,
       parent_id: isBundle ? null : (parentId || null),
       is_bundle: isBundle,
+      status: status,
       description: description || null,
       genre: category === "Games" ? (genre || null) : null,
       thumbnail_url: thumbnailUrl || null,
@@ -290,6 +292,19 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
                   {cat}
                 </option>
               ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1.5">
+              Status *
+            </label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className={inputClass}
+            >
+              <option value="active">Active</option>
+              <option value="old">Old Version</option>
             </select>
           </div>
           {category === "Games" && (

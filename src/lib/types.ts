@@ -34,6 +34,7 @@ export interface FileRecord {
   is_bundle: boolean;
   uploaded_by?: string;
   download_count?: number;
+  status?: "active" | "old" | string;
 }
 
 export const CATEGORIES = [
