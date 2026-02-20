@@ -37,22 +37,6 @@ export default function ExportGamesButton({ files }: ExportGamesButtonProps) {
     }));
   };
 
-  const exportAsCSV = () => {
-    const data = getPreparedData();
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const csvData = XLSX.utils.sheet_to_csv(worksheet);
-    
-    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "Games_List.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setIsOpen(false);
-  };
-
   const exportAsExcel = () => {
     const data = getPreparedData();
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -83,7 +67,7 @@ export default function ExportGamesButton({ files }: ExportGamesButtonProps) {
   const exportAsPDF = async () => {
     // Dynamically import to prevent Next.js SSR build errors
     const { default: jsPDF } = await import("jspdf");
-    await import("jspdf-autotable");
+    const { default: autoTable } = await import("jspdf-autotable");
 
     const data = getPreparedData();
     const doc = new jsPDF();
@@ -94,8 +78,7 @@ export default function ExportGamesButton({ files }: ExportGamesButtonProps) {
     const tableColumn = ["#", "Game Name"];
     const tableRows = data.map(item => [item["#"], item["Game Name"]]);
 
-    // @ts-expect-error jspdf-autotable extends jsPDF dynamically
-    doc.autoTable({
+    autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
       startY: 30,
@@ -175,12 +158,6 @@ export default function ExportGamesButton({ files }: ExportGamesButtonProps) {
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-[#14142a] border border-[#2a2a4a] rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 flex flex-col z-50">
-          <button
-            onClick={exportAsCSV}
-            className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-purple-500/10 hover:text-purple-300 transition-colors text-left"
-          >
-            📊 Spreadsheet (.csv)
-          </button>
           <button
             onClick={exportAsExcel}
             className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-purple-500/10 hover:text-purple-300 transition-colors text-left"
