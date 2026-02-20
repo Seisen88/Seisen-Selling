@@ -1,12 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-
-// Dynamically import to prevent Next.js SSR build errors since the library relies on the Window object
-const Swirl = dynamic(() => import("ambient-cbg").then(mod => mod.Swirl), { 
-  ssr: false 
-});
 
 export default function BackgroundEffect() {
   const [mounted, setMounted] = useState(false);
@@ -15,20 +9,29 @@ export default function BackgroundEffect() {
     setMounted(true);
   }, []);
 
+  if (!mounted) return null;
+
   return (
-    <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none" style={{ backgroundColor: "#08080f" }}>
-      {mounted && (
-        <div className="w-full h-full opacity-60 pointer-events-auto">
-          {/* This is the EXACT animation from the Webflow demo provided by the user */}
-          <Swirl 
-             color="#22c55e"    // Green color requested by the user
-             particleCount={400} // Dense amount of swirling particles
-             speed={0.8}        // Slow cinematic movement
-             baseSpeed={0.3}
-             size={2}
-          />
-        </div>
-      )}
+    <div className="fixed inset-0 z-[-1] overflow-hidden bg-[#08080f] pointer-events-none">
+      <div className="absolute inset-0 w-full h-full opacity-60 mix-blend-screen">
+        {/* Blob 1: Vibrant Green */}
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-green-500/20 rounded-full blur-[120px] animate-blob mix-blend-screen" />
+        
+        {/* Blob 2: Emerald/Teal */}
+        <div className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[120px] animate-blob animation-delay-2000 mix-blend-screen" />
+        
+        {/* Blob 3: Deep Forest Green */}
+        <div className="absolute bottom-[-10%] left-[20%] w-[550px] h-[550px] bg-green-700/20 rounded-full blur-[120px] animate-blob animation-delay-4000 mix-blend-screen" />
+      </div>
+
+      {/* Background Mesh Grid (optional, provides texture) */}
+      <div 
+        className="absolute inset-0 opacity-[0.03]" 
+        style={{
+          backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+          backgroundSize: '40px 40px'
+        }}
+      />
 
       {/* Overlay noise texture for premium grainy feel */}
       <div 

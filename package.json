@@ -12,7 +12,6 @@
     "@babel/runtime": "^7.28.6",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.97.0",
-    "ambient-cbg": "^1.0.4",
     "dotenv": "^17.3.1",
     "framer-motion": "^12.34.3",
     "jspdf": "^4.2.0",
