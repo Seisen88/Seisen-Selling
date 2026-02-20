@@ -116,6 +116,34 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
         .update(payload)
         .eq("id", file.id);
     } else {
+      if (!isBundle) {
+        // Strip common suffixes to find base name (e.g., "Game v2.0" -> "Game")
+        const baseNameMatch = name.match(/^(.*?)(?:\s+(?:v\d|version\s*\d|edition|\(|\[|-).*?)?$/i);
+        const baseName = baseNameMatch ? baseNameMatch[1].trim() : name.trim();
+        
+        if (baseName.length > 2) {
+          try {
+            const { data: existingFiles } = await supabase
+              .from("files")
+              .select("id")
+              .eq("category", category)
+              .eq("status", "active")
+              .eq("is_bundle", false)
+              .ilike("file_name", `${baseName}%`);
+
+            if (existingFiles && existingFiles.length > 0) {
+              const idsToUpdate = existingFiles.map((f) => f.id);
+              await supabase
+                .from("files")
+                .update({ status: "old" })
+                .in("id", idsToUpdate);
+            }
+          } catch (e) {
+            console.error("Auto-versioning failed:", e);
+          }
+        }
+      }
+
       result = await supabase.from("files").insert(payload);
     }
 
@@ -292,19 +320,6 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
                   {cat}
                 </option>
               ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1.5">
-              Status *
-            </label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className={inputClass}
-            >
-              <option value="active">Active</option>
-              <option value="old">Old Version</option>
             </select>
           </div>
           {category === "Games" && (
