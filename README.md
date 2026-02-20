@@ -1,4 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Seisen Premium
+
+Seisen Premium is a modern software and file distribution platform built with **Next.js (App Router)**, **Tailwind CSS**, and **Supabase**. It provides an intuitive interface for browsing, managing, and downloading categorized files, software, and games.
+
+## Features
+
+- **Categorized Browsing**: Files are organized into distinct categories (Windows, Adobe, Utilities, Games, Microsoft Office, etc.) with a clean grid layout.
+- **Bundles & Standalone Files**: Download individual files or access curated bundles containing multiple related files.
+- **Search Functionality**: Quickly find the software or game you need using the built-in search features.
+- **Role-Based Authentication**:
+  - Secure **email-based login** via Supabase Auth.
+  - **User Role**: Standard access to browse and download files.
+  - **Admin Role**: Elevated credentials allowing access to the Admin Dashboard.
+- **Comprehensive Admin Dashboard**:
+  - Manage all files, apps, and games.
+  - Create and edit software bundles.
+  - Add or revoke user access seamlessly.
+
+## Tech Stack
+
+- **Frontend Framework**: Next.js 16 (React 19)
+- **Styling**: Tailwind CSS v4
+- **Database & Backend**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage Bucket (for file/software images)
+- **Deployment**: Vercel ready
 
 ## Getting Started
 
@@ -16,21 +41,12 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file in the root directory and add your Supabase credentials to connect the application to your backend:
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
