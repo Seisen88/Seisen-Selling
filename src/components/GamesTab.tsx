@@ -6,6 +6,7 @@ import type { FileRecord } from "@/lib/types";
 import { resolveThumbnailUrl, formatFileSize } from "@/lib/utils";
 import SearchBar from "./SearchBar";
 import FileForm from "./FileForm";
+import ExportGamesButton from "./ExportGamesButton";
 
 export default function GamesTab() {
   const [files, setFiles] = useState<FileRecord[]>([]);
@@ -43,7 +44,12 @@ export default function GamesTab() {
 
   return (
     <div className="space-y-4">
-      <SearchBar onSearch={setSearch} placeholder="Search games..." />
+      <div className="flex gap-3 items-center">
+        <div className="flex-1">
+          <SearchBar onSearch={setSearch} placeholder="Search games..." />
+        </div>
+        <ExportGamesButton files={files} />
+      </div>
 
       {loading ? (
         <div className="space-y-3">

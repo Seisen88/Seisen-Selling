@@ -21,7 +21,7 @@ export default function BackgroundEffect() {
         <div className="w-full h-full opacity-60 pointer-events-auto">
           {/* This is the EXACT animation from the Webflow demo provided by the user */}
           <Swirl 
-             color="#7c3aed"    // Accent purple color to match the site theme
+             color="#22c55e"    // Green color requested by the user
              particleCount={400} // Dense amount of swirling particles
              speed={0.8}        // Slow cinematic movement
              baseSpeed={0.3}

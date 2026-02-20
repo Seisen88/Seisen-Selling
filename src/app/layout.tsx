@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BackgroundEffect from "@/components/BackgroundEffect";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen">
+        <BackgroundEffect />
         <main>{children}</main>
       </body>
     </html>
