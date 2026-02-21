@@ -9,15 +9,44 @@ interface FileFormProps {
   file?: FileRecord | null;
   onSaved: () => void;
   onCancel: () => void;
+  persistDraft?: boolean;
+  defaultCategory?: string;
 }
 
-export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
-  const [name, setName] = useState(file?.file_name || "");
-  const [url, setUrl] = useState(file?.storage_url || "");
+const DRAFT_KEY = "reiya-add-file-draft";
+
+interface DraftData {
+  name: string;
+  url: string;
+  urlParts: string[];
+  sizeValue: string;
+  sizeUnit: string;
+  category: string;
+  parentId: string;
+  isBundle: boolean;
+  status: string;
+  description: string;
+  genre: string;
+  thumbnailUrl: string;
+}
+
+export default function FileForm({ file, onSaved, onCancel, persistDraft, defaultCategory }: FileFormProps) {
+  // Load draft from localStorage if persistDraft is enabled and no file is being edited
+  const draft: DraftData | null = (() => {
+    if (!persistDraft || file) return null;
+    try {
+      const raw = typeof window !== "undefined" ? localStorage.getItem(DRAFT_KEY) : null;
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  })();
+
+  const [name, setName] = useState(draft?.name || file?.file_name || "");
+  const [url, setUrl] = useState(draft?.url || file?.storage_url || "");
   const [urlParts, setUrlParts] = useState<string[]>(
-    file?.category === "Games" && file?.storage_url
+    draft?.urlParts ||
+    (file?.category === "Games" && file?.storage_url
       ? file.storage_url.split("\n")
-      : [""]
+      : [""])
   );
 
   // file_size is stored as bigint (bytes) in the database
@@ -39,20 +68,27 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
   }
 
   const parsed = bytesToHuman(Number(file?.file_size) || 0);
-  const [sizeValue, setSizeValue] = useState(parsed.value);
-  const [sizeUnit, setSizeUnit] = useState(parsed.unit);
-  const [category, setCategory] = useState(file?.category || CATEGORIES[0]);
-  const [parentId, setParentId] = useState(file?.parent_id || "");
-  const [isBundle, setIsBundle] = useState(file?.is_bundle || false);
-  const [status, setStatus] = useState(file?.status || "active");
-  const [description, setDescription] = useState(file?.description || "");
-  const [genre, setGenre] = useState(file?.genre || "");
-  const [thumbnailUrl, setThumbnailUrl] = useState(file?.thumbnail_url || "");
+  const [sizeValue, setSizeValue] = useState(draft?.sizeValue ?? parsed.value);
+  const [sizeUnit, setSizeUnit] = useState(draft?.sizeUnit ?? parsed.unit);
+  const [category, setCategory] = useState(draft?.category || file?.category || defaultCategory || CATEGORIES[0]);
+  const [parentId, setParentId] = useState(draft?.parentId || file?.parent_id || "");
+  const [isBundle, setIsBundle] = useState(draft?.isBundle ?? file?.is_bundle ?? false);
+  const [status, setStatus] = useState(draft?.status || file?.status || "active");
+  const [description, setDescription] = useState(draft?.description || file?.description || "");
+  const [genre, setGenre] = useState(draft?.genre || file?.genre || "");
+  const [thumbnailUrl, setThumbnailUrl] = useState(draft?.thumbnailUrl || file?.thumbnail_url || "");
   const [bundles, setBundles] = useState<FileRecord[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [fetchingGenre, setFetchingGenre] = useState(false);
   const supabase = createClient();
+
+  // Persist draft to localStorage whenever form fields change
+  useEffect(() => {
+    if (!persistDraft || file) return;
+    const draftData: DraftData = { name, url, urlParts, sizeValue, sizeUnit, category, parentId, isBundle, status, description, genre, thumbnailUrl };
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(draftData)); } catch {}
+  }, [persistDraft, file, name, url, urlParts, sizeValue, sizeUnit, category, parentId, isBundle, status, description, genre, thumbnailUrl]);
 
   useEffect(() => {
     async function fetchBundles() {
@@ -153,6 +189,11 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
       return;
     }
 
+    // Clear draft on successful save
+    if (persistDraft) {
+      try { localStorage.removeItem(DRAFT_KEY); } catch {}
+    }
+
     setSaving(false);
     onSaved();
   };
@@ -177,10 +218,10 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
   };
 
   const inputClass =
-    "w-full px-3 py-2.5 rounded-xl bg-[#0f0f1a] border border-[#2a2a4a] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-sm text-gray-200 placeholder-gray-500";
+    "w-full px-3 py-2.5 rounded-xl bg-[#111111] border border-[#2a2a2a] focus:ring-2 focus:ring-white/20 focus:border-transparent outline-none transition text-sm text-gray-200 placeholder-gray-500";
 
   return (
-    <div className="bg-[#14142a] rounded-xl border border-[#2a2a4a] p-6">
+    <div className="bg-[#161616] rounded-xl border border-[#2a2a2a] p-6">
       <h3 className="text-lg font-semibold text-gray-100 mb-4">
         {file ? "Edit File" : "Add New File"}
       </h3>
@@ -211,14 +252,14 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
                       <button
                         type="button"
                         onClick={() => setUrlParts([...urlParts, ""])}
-                        className="text-xs bg-purple-500/15 text-purple-300 px-2.5 py-1 rounded-lg hover:bg-purple-500/25 transition-colors cursor-pointer border border-purple-500/20"
+                        className="text-xs bg-white/10 text-gray-300 px-2.5 py-1 rounded-lg hover:bg-white/15 transition-colors cursor-pointer border border-white/20"
                       >
                         +1 Part
                       </button>
                       <button
                         type="button"
                         onClick={() => setUrlParts([...urlParts, ...Array(9).fill("")])}
-                        className="text-xs bg-purple-500/15 text-purple-300 px-2.5 py-1 rounded-lg hover:bg-purple-500/25 transition-colors cursor-pointer border border-purple-500/20"
+                        className="text-xs bg-white/10 text-gray-300 px-2.5 py-1 rounded-lg hover:bg-white/15 transition-colors cursor-pointer border border-white/20"
                       >
                         +9 Parts
                       </button>
@@ -248,7 +289,7 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
                             }}
                             className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-400 transition-colors"
                           >
-                            ✕
+                            ×
                           </button>
                         )}
                       </div>
@@ -332,12 +373,12 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
                   type="button"
                   onClick={() => handleAutoDetectGenre(false)}
                   disabled={!name.trim() || fetchingGenre}
-                  className="text-xs bg-purple-500/15 text-purple-300 px-2 py-0.5 rounded-lg hover:bg-purple-500/25 transition-colors cursor-pointer border border-purple-500/20 disabled:opacity-50 flex items-center gap-1"
+                  className="text-xs bg-white/10 text-gray-300 px-2 py-0.5 rounded-lg hover:bg-white/15 transition-colors cursor-pointer border border-white/20 disabled:opacity-50 flex items-center gap-1"
                 >
                   {fetchingGenre ? (
-                    <div className="w-3 h-3 border-2 border-purple-300 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-3 h-3 border-2 border-gray-300 border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    "✨ Auto-Detect"
+                    "Auto-Detect"
                   )}
                 </button>
               </div>
@@ -353,7 +394,7 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
         </div>
 
         {category !== "Games" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2a2a4a] pt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2a2a2a] pt-4">
             <div className="flex items-center gap-2 py-2">
               <input
                 type="checkbox"
@@ -363,7 +404,7 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
                   setIsBundle(e.target.checked);
                   if (e.target.checked) setParentId("");
                 }}
-                className="w-4 h-4 text-purple-600 rounded border-[#2a2a4a] bg-[#0f0f1a] focus:ring-purple-500"
+                className="w-4 h-4 text-white rounded border-[#2a2a2a] bg-[#111111] focus:ring-white/20"
               />
               <label htmlFor="isBundle" className="text-sm font-medium text-gray-300 cursor-pointer">
                 Is this a Bundle?
@@ -383,7 +424,7 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
                   <option value="">None (Standalone File)</option>
                   {bundles.map((b) => (
                     <option key={b.id} value={b.id}>
-                      📦 {b.file_name}
+                      {b.file_name}
                     </option>
                   ))}
                 </select>
@@ -421,14 +462,14 @@ export default function FileForm({ file, onSaved, onCancel }: FileFormProps) {
           <button
             type="submit"
             disabled={saving}
-            className="bg-purple-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-purple-500 transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-purple-500/20"
+            className="bg-white text-black px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 transition-all disabled:opacity-50 cursor-pointer shadow-lg shadow-white/10"
           >
             {saving ? "Saving..." : file ? "Update File" : "Add File"}
           </button>
           <button
             type="button"
             onClick={onCancel}
-            className="bg-[#1a1a35] text-gray-300 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[#252547] transition-colors cursor-pointer border border-[#2a2a4a]"
+            className="bg-[#1c1c1c] text-gray-300 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[#252525] transition-colors cursor-pointer border border-[#2a2a2a]"
           >
             Cancel
           </button>

@@ -100,7 +100,7 @@ export default function BundlesTab() {
         Object.entries(grouped).map(([cat, catBundles]) => (
           <div key={cat}>
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
-              <span>{CATEGORY_ICONS[cat] || "📁"}</span>
+              <span>{CATEGORY_ICONS[cat] || "—"}</span>
               {cat} ({catBundles.length})
             </h3>
             <div className="space-y-2 mb-6">
@@ -118,7 +118,7 @@ export default function BundlesTab() {
                       }
                       className="flex items-center gap-3 min-w-0 flex-1 text-left cursor-pointer"
                     >
-                      <span className="text-lg">📦</span>
+                      <svg className="w-5 h-5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                       <div className="min-w-0">
                         <p className="font-medium text-gray-900 truncate">
                           {bundle.file_name}
@@ -157,7 +157,7 @@ export default function BundlesTab() {
                             key={file.id}
                             className="text-sm text-gray-700 flex items-center gap-2 py-1 px-2"
                           >
-                            <span className="text-gray-400">📄</span>
+                            <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                             <span className="truncate">{file.file_name}</span>
                             <span className="text-xs text-gray-400 ml-auto">
                               {file.file_size}

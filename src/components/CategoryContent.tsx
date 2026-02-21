@@ -172,13 +172,13 @@ export default function CategoryContent({ category }: { category: string }) {
       <Navbar />
       {accessDenied ? (
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center py-20 bg-[#14142a] rounded-2xl border border-[#2a2a4a]">
-            <span className="text-5xl block mb-4">🔒</span>
+          <div className="text-center py-20 bg-[#161616] rounded-2xl border border-[#2a2a2a]">
+            <svg className="w-12 h-12 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
             <h2 className="text-xl font-bold text-white mb-2">Access Denied</h2>
             <p className="text-gray-500 mb-6">You don&apos;t have permission to view this category.</p>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
             >
               ← Back to Home
             </Link>
@@ -190,7 +190,7 @@ export default function CategoryContent({ category }: { category: string }) {
         <div className="flex items-center gap-3 mb-8">
           <Link
             href="/"
-            className="text-purple-400 hover:text-purple-300 transition-colors"
+            className="text-gray-400 hover:text-white transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -209,7 +209,7 @@ export default function CategoryContent({ category }: { category: string }) {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as "recent" | "az" | "za")}
-              className="px-4 py-2.5 rounded-xl bg-[#0f0f1a] border border-[#2a2a4a] text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full sm:w-48 transition-colors cursor-pointer"
+              className="px-4 py-2.5 rounded-xl bg-[#111111] border border-[#2a2a2a] text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-white/20 w-full sm:w-48 transition-colors cursor-pointer"
             >
               <option value="recent">Recently Uploaded</option>
               <option value="az">Name (A - Z)</option>
@@ -245,7 +245,7 @@ export default function CategoryContent({ category }: { category: string }) {
                     <button
                       onClick={() => setGamesPage(Math.max(1, gamesPage - 1))}
                       disabled={gamesPage === 1}
-                      className="px-3 py-2 rounded-xl text-sm font-medium bg-[#14142a] border border-[#1e1e30] text-gray-400 hover:text-white hover:border-purple-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+                      className="px-3 py-2 rounded-xl text-sm font-medium bg-[#161616] border border-[#1e1e1e] text-gray-400 hover:text-white hover:border-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
                     >
                       ← Prev
                     </button>
@@ -257,8 +257,8 @@ export default function CategoryContent({ category }: { category: string }) {
                           onClick={() => setGamesPage(page)}
                           className={`w-10 h-10 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                             page === gamesPage
-                              ? "bg-purple-500 text-white"
-                              : "bg-[#14142a] border border-[#1e1e30] text-gray-400 hover:text-white hover:border-purple-500/30"
+                              ? "bg-white text-black"
+                              : "bg-[#161616] border border-[#1e1e1e] text-gray-400 hover:text-white hover:border-white/20"
                           }`}
                         >
                           {page}
@@ -271,7 +271,7 @@ export default function CategoryContent({ category }: { category: string }) {
                         setGamesPage(Math.min(totalGamesPages, gamesPage + 1))
                       }
                       disabled={gamesPage === totalGamesPages}
-                      className="px-3 py-2 rounded-xl text-sm font-medium bg-[#14142a] border border-[#1e1e30] text-gray-400 hover:text-white hover:border-purple-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+                      className="px-3 py-2 rounded-xl text-sm font-medium bg-[#161616] border border-[#1e1e1e] text-gray-400 hover:text-white hover:border-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
                     >
                       Next →
                     </button>
@@ -285,8 +285,8 @@ export default function CategoryContent({ category }: { category: string }) {
                 </p>
               </>
             ) : (
-              <div className="text-center py-20 bg-[#14142a] rounded-2xl border border-[#2a2a4a]">
-                <span className="text-5xl block mb-4">🔍</span>
+              <div className="text-center py-20 bg-[#161616] rounded-2xl border border-[#2a2a2a]">
+                <svg className="w-12 h-12 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 <p className="text-gray-500">No games found.</p>
               </div>
             )}
@@ -296,7 +296,7 @@ export default function CategoryContent({ category }: { category: string }) {
           <div className="space-y-10">
             {filteredBundles.length > 0 && (
               <div>
-                <h2 className="text-xs font-semibold text-purple-400 uppercase tracking-widest mb-5">
+                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-5">
                   Bundles
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5">
@@ -309,7 +309,7 @@ export default function CategoryContent({ category }: { category: string }) {
 
             {filteredFiles.length > 0 && (
               <div>
-                <h2 className="text-xs font-semibold text-purple-400 uppercase tracking-widest mb-5">
+                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-5">
                   Files
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5">
@@ -321,8 +321,8 @@ export default function CategoryContent({ category }: { category: string }) {
             )}
 
             {filteredBundles.length === 0 && filteredFiles.length === 0 && (
-              <div className="text-center py-20 bg-[#14142a] rounded-2xl border border-[#2a2a4a]">
-                <span className="text-5xl block mb-4">🔍</span>
+              <div className="text-center py-20 bg-[#161616] rounded-2xl border border-[#2a2a2a]">
+                <svg className="w-12 h-12 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 <p className="text-gray-500">No content found in {category}.</p>
               </div>
             )}

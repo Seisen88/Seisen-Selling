@@ -39,7 +39,7 @@ export default function BackgroundEffect() {
             distance: 180,
             links: {
               opacity: 0.5,
-              color: "#a78bfa",
+              color: "#ffffff",
             },
           },
           push: {
@@ -53,13 +53,13 @@ export default function BackgroundEffect() {
       },
       particles: {
         color: {
-          value: ["#8b5cf6", "#a855f7", "#7c3aed", "#6366f1", "#818cf8", "#c084fc"],
+          value: ["#ffffff", "#d4d4d4", "#a0a0a0", "#737373", "#e5e5e5", "#b0b0b0"],
         },
         links: {
-          color: "#8b5cf6",
+          color: "#ffffff",
           distance: 150,
           enable: true,
-          opacity: 0.15,
+          opacity: 0.08,
           width: 1,
         },
         move: {
@@ -79,7 +79,7 @@ export default function BackgroundEffect() {
           value: 100,
         },
         opacity: {
-          value: { min: 0.3, max: 0.7 },
+          value: { min: 0.2, max: 0.5 },
           animation: {
             enable: true,
             speed: 0.5,
@@ -102,18 +102,24 @@ export default function BackgroundEffect() {
 
   return (
     <div className="fixed inset-0 z-[-1]" style={{ background: "var(--bg-primary)" }}>
-      {/* Large SEISEN watermark text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+      {/* Large REIYA watermark text */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none overflow-hidden">
+        <img
+          src="/images/reiya.png"
+          alt=""
+          className="w-[20vw] h-[20vw] object-contain brightness-0 invert opacity-[0.06] mb-4"
+        />
         <h1
           className="text-[12vw] font-extrabold tracking-[0.2em] uppercase"
           style={{
+            fontFamily: "var(--font-japan-ramen), sans-serif",
             color: "transparent",
-            WebkitTextStroke: "1px rgba(139, 92, 246, 0.08)",
-            textShadow: "0 0 80px rgba(139, 92, 246, 0.05)",
+            WebkitTextStroke: "1px rgba(255, 255, 255, 0.06)",
+            textShadow: "0 0 80px rgba(255, 255, 255, 0.03)",
             userSelect: "none",
           }}
         >
-          SEISEN
+          REIYA 零夜
         </h1>
       </div>
 
@@ -122,7 +128,7 @@ export default function BackgroundEffect() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%)",
         }}
       />
 

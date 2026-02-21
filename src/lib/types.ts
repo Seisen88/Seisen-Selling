@@ -60,13 +60,13 @@ export const CATEGORY_SLUGS: Record<string, string> = {
 };
 
 export const CATEGORY_ICONS: Record<string, string> = {
-  Windows: "🪟",
-  Adobe: "🎨",
-  Krisp: "🎙️",
-  Utilities: "🔧",
-  Others: "📦",
-  Games: "🎮",
-  "Microsoft Office": "📊",
+  Windows: "W",
+  Adobe: "A",
+  Krisp: "K",
+  Utilities: "U",
+  Others: "O",
+  Games: "G",
+  "Microsoft Office": "M",
 };
 
 export function categoryToSlug(category: string): string {

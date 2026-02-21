@@ -5,22 +5,22 @@ import { getFileStatus } from "@/lib/utils";
 const CATEGORY_COLORS: Record<string, string> = {
   Windows: "#00ADEF",
   Adobe: "#FF0000",
-  Krisp: "#7C3AED",
+  Krisp: "#a3a3a3",
   Utilities: "#F59E0B",
   Others: "#10B981",
-  Games: "#A855F7",
+  Games: "#a3a3a3",
   "Microsoft Office": "#D97706",
 };
 
 export default function BundleCard({ bundle }: { bundle: Bundle }) {
   const fileCount = bundle.files?.length || 0;
-  const color = CATEGORY_COLORS[bundle.category] || "#7C3AED";
+  const color = CATEGORY_COLORS[bundle.category] || "#ffffff";
   const status = getFileStatus(bundle.upload_date, bundle.updated_at);
 
   return (
     <Link
       href={`/bundle/${bundle.id}`}
-      className="group relative flex flex-col rounded-2xl bg-[#0c0c14] border border-[#1e1e30] hover:border-[#2e2e50] transition-all duration-300 hover:-translate-y-1 w-full h-full z-10 hover:z-50"
+      className="group relative flex flex-col rounded-2xl bg-[#0c0c0c] border border-[#1e1e1e] hover:border-[#3a3a3a] transition-all duration-300 hover:-translate-y-1 w-full h-full z-10 hover:z-50"
     >
       {/* Status Badge */}
       {status && (
@@ -63,10 +63,10 @@ export default function BundleCard({ bundle }: { bundle: Bundle }) {
         <div className="group-hover:scale-110 transition-transform duration-300">
           <svg viewBox="0 0 88 88" className="w-20 h-20" fill="none">
             <path d="M20 30L44 16L68 30V58L44 72L20 58V30Z" fill={color} fillOpacity="0.9" />
-            <path d="M44 16V72" stroke="#0C0C14" strokeWidth="2" />
-            <path d="M20 30L68 58" stroke="#0C0C14" strokeWidth="2" />
-            <path d="M68 30L20 58" stroke="#0C0C14" strokeWidth="2" />
-            <text x="44" y="48" textAnchor="middle" fill="#0C0C14" fontSize="18" fontWeight="bold">
+            <path d="M44 16V72" stroke="#0C0C0C" strokeWidth="2" />
+            <path d="M20 30L68 58" stroke="#0C0C0C" strokeWidth="2" />
+            <path d="M68 30L20 58" stroke="#0C0C0C" strokeWidth="2" />
+            <text x="44" y="48" textAnchor="middle" fill="#0C0C0C" fontSize="18" fontWeight="bold">
               {fileCount}
             </text>
           </svg>
@@ -85,7 +85,7 @@ export default function BundleCard({ bundle }: { bundle: Bundle }) {
 
       {/* ── View button ── */}
       <div className="px-4 pb-5">
-        <div className="bg-white text-[#0c0c14] text-xs font-bold text-center py-3 rounded-xl hover:bg-gray-100 transition-colors uppercase tracking-wider">
+        <div className="bg-white text-[#0c0c0c] text-xs font-bold text-center py-3 rounded-xl hover:bg-gray-100 transition-colors uppercase tracking-wider">
           View Bundle
         </div>
       </div>

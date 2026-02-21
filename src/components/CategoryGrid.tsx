@@ -57,7 +57,7 @@ export default function CategoryGrid() {
   if (loading) {
     return (
       <div className="flex justify-center py-10">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
       </div>
     );
   }
@@ -71,7 +71,7 @@ export default function CategoryGrid() {
 
   if (categoriesToShow.length === 0) {
     return (
-      <div className="text-center py-20 bg-[#14142a] rounded-2xl border border-dashed border-[#2a2a4a]">
+      <div className="text-center py-20 bg-[#161616] rounded-2xl border border-dashed border-[#2a2a2a]">
         <p className="text-gray-500">No content available at the moment.</p>
       </div>
     );

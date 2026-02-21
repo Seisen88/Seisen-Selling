@@ -36,7 +36,7 @@ export default function SearchBar({
         value={query}
         onChange={handleChange}
         placeholder={placeholder}
-        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#14142a] border border-[#2a2a4a] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-gray-200 placeholder-gray-500"
+        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#161616] border border-[#2a2a2a] focus:ring-2 focus:ring-white/20 focus:border-transparent outline-none transition text-gray-200 placeholder-gray-500"
       />
     </div>
   );

@@ -6,15 +6,15 @@ import { resolveThumbnailUrl, formatFileSize, getFileStatus } from "@/lib/utils"
 const CATEGORY_COLORS: Record<string, string> = {
   Windows: "#00ADEF",
   Adobe: "#FF0000",
-  Krisp: "#7C3AED",
+  Krisp: "#a3a3a3",
   Utilities: "#F59E0B",
   Others: "#10B981",
-  Games: "#A855F7",
+  Games: "#a3a3a3",
   "Microsoft Office": "#D97706",
 };
 
 export default function FileCard({ file, onClick }: { file: FileRecord; onClick?: () => void }) {
-  const color = CATEGORY_COLORS[file.category] || "#7C3AED";
+  const color = CATEGORY_COLORS[file.category] || "#ffffff";
   const thumbUrl = resolveThumbnailUrl(file.thumbnail_url);
   const status = getFileStatus(file.upload_date, file.updated_at);
 
@@ -45,7 +45,7 @@ export default function FileCard({ file, onClick }: { file: FileRecord; onClick?
         onClick={onClick}
         role={onClick ? "button" : undefined}
         tabIndex={onClick ? 0 : undefined}
-        className={`group flex flex-col rounded-2xl overflow-hidden bg-[#0c0c14] border border-[#1e1e30] transition-all duration-300 w-full h-full relative text-left ${onClick ? 'cursor-pointer hover:border-[#2e2e50] hover:-translate-y-1' : 'hover:border-[#2e2e50]'}`}
+        className={`group flex flex-col rounded-2xl overflow-hidden bg-[#0c0c0c] border border-[#1e1e1e] transition-all duration-300 w-full h-full relative text-left ${onClick ? 'cursor-pointer hover:border-[#3a3a3a] hover:-translate-y-1' : 'hover:border-[#3a3a3a]'}`}
       >
         {/* Light ray bar - positioned absolutely at the top */}
         <div className="absolute top-0 left-0 right-0 h-1 z-10" style={{ backgroundColor: color }}>
@@ -75,8 +75,8 @@ export default function FileCard({ file, onClick }: { file: FileRecord; onClick?
                 />
               </div>
             ) : (
-              <div className="w-32 h-32 flex items-center justify-center bg-[#1e1e30] rounded-2xl mb-5 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <span className="text-4xl">📁</span>
+              <div className="w-32 h-32 flex items-center justify-center bg-[#1e1e1e] rounded-2xl mb-5 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <svg className="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
               </div>
             )}
 
@@ -107,7 +107,7 @@ export default function FileCard({ file, onClick }: { file: FileRecord; onClick?
           <div className="px-4 pb-5 mt-auto">
             {onClick ? (
               <div
-                className="flex items-center justify-center gap-2 text-[#0c0c14] text-xs font-bold text-center py-3 rounded-xl hover:opacity-90 transition-opacity uppercase tracking-wider w-full"
+                className="flex items-center justify-center gap-2 text-[#0c0c0c] text-xs font-bold text-center py-3 rounded-xl hover:opacity-90 transition-opacity uppercase tracking-wider w-full"
                 style={{ backgroundColor: color }}
               >
                 View Content
@@ -117,7 +117,7 @@ export default function FileCard({ file, onClick }: { file: FileRecord; onClick?
                 href={`/api/download/${file.id}/0`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 text-[#0c0c14] text-xs font-bold text-center py-3 rounded-xl hover:opacity-90 transition-opacity uppercase tracking-wider w-full"
+                className="flex items-center justify-center gap-2 text-[#0c0c0c] text-xs font-bold text-center py-3 rounded-xl hover:opacity-90 transition-opacity uppercase tracking-wider w-full"
                 style={{ backgroundColor: color }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

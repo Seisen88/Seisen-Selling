@@ -13,6 +13,8 @@ export default function GamesTab() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const perPage = 20;
   const supabase = createClient();
 
   const fetchFiles = async () => {
@@ -42,6 +44,13 @@ export default function GamesTab() {
       f.description?.toLowerCase().includes(search.toLowerCase())
   );
 
+  const totalPages = Math.ceil(filtered.length / perPage);
+  const paginated = filtered.slice((page - 1) * perPage, page * perPage);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
+
   return (
     <div className="space-y-4">
       <div className="flex gap-3 items-center">
@@ -60,15 +69,20 @@ export default function GamesTab() {
       ) : filtered.length === 0 ? (
         <p className="text-gray-500 text-center py-8">No games found.</p>
       ) : (
+        <>
+        <div className="flex items-center justify-between text-xs text-gray-500 px-1">
+          <span>{filtered.length} game{filtered.length !== 1 ? "s" : ""}</span>
+          {totalPages > 1 && <span>Page {page} of {totalPages}</span>}
+        </div>
         <div className="space-y-2">
-          {filtered.map((file) => (
+          {paginated.map((file) => (
             <div key={file.id}>
               {/* Game row */}
               <div
-                className={`bg-[#0c0c14] rounded-xl border p-4 flex items-center justify-between gap-4 transition-all ${
+                className={`bg-[#0c0c0c] rounded-xl border p-4 flex items-center justify-between gap-4 transition-all ${
                   editingId === file.id
-                    ? "border-purple-500/50 rounded-b-none"
-                    : "border-[#1e1e30] hover:border-[#2e2e50]"
+                    ? "border-white/30 rounded-b-none"
+                    : "border-[#1e1e1e] hover:border-[#3a3a3a]"
                 }`}
               >
                 <div className="flex items-center gap-3 min-w-0">
@@ -77,7 +91,7 @@ export default function GamesTab() {
                       src={resolveThumbnailUrl(file.thumbnail_url)}
                       alt=""
                       referrerPolicy="no-referrer"
-                      className="w-10 h-10 rounded-lg object-cover flex-shrink-0 border border-[#2a2a4a]"
+                      className="w-10 h-10 rounded-lg object-cover flex-shrink-0 border border-[#2a2a2a]"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = "none";
                       }}
@@ -98,7 +112,7 @@ export default function GamesTab() {
                     className={`text-sm font-medium cursor-pointer transition-colors ${
                       editingId === file.id
                         ? "text-yellow-400 hover:text-yellow-300"
-                        : "text-purple-400 hover:text-purple-300"
+                        : "text-gray-400 hover:text-white"
                     }`}
                   >
                     {editingId === file.id ? "Close" : "Edit"}
@@ -114,7 +128,7 @@ export default function GamesTab() {
 
               {/* Inline edit form */}
               {editingId === file.id && (
-                <div className="border border-t-0 border-purple-500/50 rounded-b-xl overflow-hidden">
+                <div className="border border-t-0 border-white/30 rounded-b-xl overflow-hidden">
                   <FileForm
                     file={file}
                     onSaved={() => {
@@ -128,6 +142,41 @@ export default function GamesTab() {
             </div>
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 pt-4">
+            <button
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={page === 1}
+              className="px-3 py-2 rounded-xl text-sm font-medium bg-[#161616] border border-[#1e1e1e] text-gray-400 hover:text-white hover:border-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+            >
+              Prev
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                onClick={() => setPage(p)}
+                className={`w-9 h-9 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                  p === page
+                    ? "bg-white text-black"
+                    : "bg-[#161616] border border-[#1e1e1e] text-gray-400 hover:text-white hover:border-white/20"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setPage(Math.min(totalPages, page + 1))}
+              disabled={page === totalPages}
+              className="px-3 py-2 rounded-xl text-sm font-medium bg-[#161616] border border-[#1e1e1e] text-gray-400 hover:text-white hover:border-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+            >
+              Next
+            </button>
+          </div>
+        )}
+        </>
       )}
     </div>
   );

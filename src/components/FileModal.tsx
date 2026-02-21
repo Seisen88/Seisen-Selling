@@ -7,12 +7,12 @@ import type { FileRecord } from "@/lib/types";
 const CATEGORY_COLORS: Record<string, string> = {
   Windows: "#0ea5e9", // sky blue
   Adobe: "#ef4444", // red
-  Krisp: "#8b5cf6", // purple
+  Krisp: "#a3a3a3", // gray
   Utilities: "#f59e0b", // amber
   Others: "#10b981", // emerald
   Games: "#ec4899", // pink
   "Microsoft Office": "#f97316", // orange
-  Bundles: "#7c3aed", // violet
+  Bundles: "#ffffff", // white
 };
 
 export default function FileModal({
@@ -23,7 +23,7 @@ export default function FileModal({
   onClose: () => void;
 }) {
   const thumbUrl = resolveThumbnailUrl(file.thumbnail_url);
-  const color = CATEGORY_COLORS[file.category] || "#7C3AED";
+  const color = CATEGORY_COLORS[file.category] || "#ffffff";
   const [partCount, setPartCount] = useState(0);
   const [loadingParts, setLoadingParts] = useState(true);
 
@@ -48,10 +48,10 @@ export default function FileModal({
       {/* Modal */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-3xl max-h-[85vh] bg-[#0c0c14] border border-[#2a2a4a] rounded-2xl overflow-hidden flex flex-col"
+        className="relative w-full max-w-3xl max-h-[85vh] bg-[#0c0c0c] border border-[#2a2a2a] rounded-2xl overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e1e30] bg-[#0a0a16] shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e1e1e] bg-[#0a0a0a] shrink-0">
           <h2 className="text-lg font-bold text-white truncate pr-4">
             {file.file_name}
           </h2>
@@ -68,9 +68,9 @@ export default function FileModal({
         {/* Body — two columns */}
         <div className="flex flex-col sm:flex-row flex-1 min-h-0">
           {/* Left: image + size + description */}
-          <div className="sm:w-1/2 flex flex-col border-r border-[#1e1e30] overflow-y-auto">
+          <div className="sm:w-1/2 flex flex-col border-r border-[#1e1e1e] overflow-y-auto">
             {/* Thumbnail */}
-            <div className="w-full aspect-[16/10] overflow-hidden bg-[#08080f] shrink-0 flex items-center justify-center p-6 border-b border-[#1e1e30]">
+            <div className="w-full aspect-[16/10] overflow-hidden bg-[#080808] shrink-0 flex items-center justify-center p-6 border-b border-[#1e1e1e]">
               {thumbUrl ? (
                 <img
                   src={thumbUrl}
@@ -82,8 +82,8 @@ export default function FileModal({
                   }}
                 />
               ) : (
-                <div className="w-32 h-32 flex items-center justify-center bg-[#1e1e30] rounded-2xl shadow-lg">
-                  <span className="text-5xl">📁</span>
+                <div className="w-32 h-32 flex items-center justify-center bg-[#1e1e1e] rounded-2xl shadow-lg">
+                  <svg className="w-14 h-14 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
                 </div>
               )}
             </div>
@@ -147,7 +147,7 @@ export default function FileModal({
                       href={`/api/download/${file.id}/${index}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 rounded-xl bg-[#14142a] border border-[#1e1e30] transition-all group"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-[#161616] border border-[#1e1e1e] transition-all group"
                       style={{
                         '--hover-border': `${color}4d`,
                         '--hover-bg': `${color}1a`

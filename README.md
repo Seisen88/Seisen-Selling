@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="public/window.svg" alt="Seisen Premium Logo" width="120" />
+  <img src="public/window.svg" alt="Reiya Logo" width="120" />
 
-# 🌟 Seisen Premium 🌟
+# 🌟 Reiya 🌟
 
   <p align="center">
     <b>The Ultimate Hub for Premium Software, Games & Utilities</b>
@@ -16,15 +16,15 @@
 
 ---
 
-## 🚀 Welcome to Seisen Premium
+## 🚀 Welcome to Reiya
 
-Finding the right software and games shouldn't feel like navigating a maze. **Seisen Premium** is a meticulously designed digital library that brings order to chaos, offering you instant, categorised access to an ever-expanding collection of top-tier tools and entertainment.
+Finding the right software and games shouldn't feel like navigating a maze. **Reiya** is a meticulously designed digital library that brings order to chaos, offering you instant, categorised access to an ever-expanding collection of top-tier tools and entertainment.
 
 Whether you're looking for the complete **Adobe Creative Cloud** suite, the latest triple-A **Games**, essential **Windows** utilities, or robust **Security** software, everything is just a click away.
 
 ---
 
-## ✨ Why Seisen Premium?
+## ✨ Why Reiya?
 
 ### 🗂️ Intuitive Categorization
 
@@ -56,7 +56,7 @@ Your access is tied securely to you. Simply log in to browse, discover, and down
 
 ### 👑 Exclusive Admin Dashboard
 
-Behind the scenes, Seisen Premium is powered by a robust and comprehensive administrative system. Verified admins have the power to:
+Behind the scenes, Reiya is powered by a robust and comprehensive administrative system. Verified admins have the power to:
 
 - Instantly upload and categorize new software and games
 - Create, modify, and enrich dynamic software bundles

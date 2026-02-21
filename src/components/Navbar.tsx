@@ -62,14 +62,16 @@ export default function Navbar() {
   if (isLoginPage) return null;
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#08080f]/80 border-b border-[#2a2a4a]">
+    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#0a0a0a]/80 border-b border-[#2a2a2a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link
             href="/"
-            className="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent hover:from-purple-300 hover:to-purple-500 transition-all"
+            className="flex items-center gap-2 text-xl font-bold text-white hover:text-gray-300 transition-all"
+            style={{ fontFamily: "var(--font-japan-ramen), sans-serif" }}
           >
-            Seisen Premium
+            <img src="/images/reiya.png" alt="Reiya" className="w-9 h-9 object-contain brightness-0 invert" />
+            Reiya 零夜
           </Link>
 
           <div className="flex items-center gap-4">
@@ -78,7 +80,7 @@ export default function Navbar() {
                 {profile?.role === "admin" && (
                   <Link
                     href="/admin"
-                    className="bg-purple-600/20 text-purple-300 border border-purple-500/30 px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-600/30 hover:border-purple-500/50 transition-all"
+                    className="bg-white/10 text-gray-300 border border-white/20 px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/15 hover:border-white/30 transition-all"
                   >
                     Admin Panel
                   </Link>
@@ -99,7 +101,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/login"
-                    className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-500 transition-colors shadow-lg shadow-purple-500/20"
+                    className="bg-white text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors shadow-lg shadow-white/10"
                   >
                     Login
                   </Link>

@@ -21,14 +21,16 @@ export default function AddFileTab() {
             onClick={() => setSuccess(false)}
             className="text-green-400 hover:text-green-300 font-bold"
           >
-            ✕
+            ×
           </button>
         </div>
       )}
 
-      <div className="bg-[#14142a] rounded-xl border border-[#2a2a4a] p-6">
+      <div className="bg-[#161616] rounded-xl border border-[#2a2a2a] p-6">
         <FileForm
           key={formKey}
+          persistDraft
+          defaultCategory="Games"
           onSaved={() => {
             setSuccess(true);
             setFormKey((k) => k + 1);

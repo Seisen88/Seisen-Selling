@@ -154,7 +154,7 @@ export default function UsersTab() {
   return (
     <div className="space-y-4">
       {/* Add User Form */}
-      <div className="bg-[#14142a] rounded-xl border border-[#2a2a4a] p-5">
+      <div className="bg-[#161616] rounded-xl border border-[#2a2a2a] p-5">
         <h3 className="text-sm font-semibold text-gray-200 mb-3">
           Add New User
         </h3>
@@ -170,7 +170,7 @@ export default function UsersTab() {
                 onChange={(e) => setNewEmail(e.target.value)}
                 required
                 placeholder="user@example.com"
-                className="w-full px-3 py-2 rounded-xl bg-[#0f0f1a] border border-[#2a2a4a] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-sm text-gray-200 placeholder-gray-500"
+                className="w-full px-3 py-2 rounded-xl bg-[#111111] border border-[#2a2a2a] focus:ring-2 focus:ring-white/20 focus:border-transparent outline-none transition text-sm text-gray-200 placeholder-gray-500"
               />
             </div>
             <div>
@@ -180,7 +180,7 @@ export default function UsersTab() {
               <select
                 value={newRole}
                 onChange={(e) => setNewRole(e.target.value as "user" | "admin")}
-                className="px-3 py-2 rounded-xl bg-[#0f0f1a] border border-[#2a2a4a] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-sm text-gray-200"
+                className="px-3 py-2 rounded-xl bg-[#111111] border border-[#2a2a2a] focus:ring-2 focus:ring-white/20 focus:border-transparent outline-none transition text-sm text-gray-200"
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
@@ -189,7 +189,7 @@ export default function UsersTab() {
             <button
               type="submit"
               disabled={adding}
-              className="bg-purple-600 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-purple-500 transition-colors disabled:opacity-50 cursor-pointer shadow-lg shadow-purple-500/20"
+              className="bg-white text-black px-5 py-2 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors disabled:opacity-50 cursor-pointer shadow-lg shadow-white/10"
             >
               {adding ? "Adding..." : "Add User"}
             </button>
@@ -205,7 +205,7 @@ export default function UsersTab() {
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
                 placeholder="Set admin password"
-                className="w-full px-3 py-2 rounded-xl bg-[#0f0f1a] border border-[#2a2a4a] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-sm text-gray-200 placeholder-gray-500"
+                className="w-full px-3 py-2 rounded-xl bg-[#111111] border border-[#2a2a2a] focus:ring-2 focus:ring-white/20 focus:border-transparent outline-none transition text-sm text-gray-200 placeholder-gray-500"
               />
             </div>
           )}
@@ -242,10 +242,10 @@ export default function UsersTab() {
             return (
               <div key={user.id}>
                 <div
-                  className={`bg-[#14142a] rounded-xl border p-4 flex items-center justify-between gap-4 transition-all ${
+                  className={`bg-[#161616] rounded-xl border p-4 flex items-center justify-between gap-4 transition-all ${
                     isEditing
-                      ? "border-purple-500/50 rounded-b-none"
-                      : "border-[#2a2a4a] hover:border-purple-500/30"
+                      ? "border-white/30 rounded-b-none"
+                      : "border-[#2a2a2a] hover:border-white/20"
                   }`}
                 >
                   <div className="min-w-0 flex-1">
@@ -256,8 +256,8 @@ export default function UsersTab() {
                       <span
                         className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
                           user.role === "admin"
-                            ? "bg-purple-500/15 text-purple-300 border border-purple-500/20"
-                            : "bg-[#1a1a35] text-gray-400 border border-[#2a2a4a]"
+                            ? "bg-white/10 text-gray-300 border border-white/20"
+                            : "bg-[#1c1c1c] text-gray-400 border border-[#2a2a2a]"
                         }`}
                       >
                         {user.role}
@@ -284,7 +284,7 @@ export default function UsersTab() {
                         className={`text-sm font-medium cursor-pointer transition-colors ${
                           isEditing
                             ? "text-yellow-400 hover:text-yellow-300"
-                            : "text-purple-400 hover:text-purple-300"
+                            : "text-gray-400 hover:text-white"
                         }`}
                       >
                         {isEditing ? "Close" : "Categories"}
@@ -301,7 +301,7 @@ export default function UsersTab() {
 
                 {/* Inline category editor */}
                 {isEditing && (
-                  <div className="border border-t-0 border-purple-500/50 rounded-b-xl bg-[#0f0f1e] p-4">
+                  <div className="border border-t-0 border-white/30 rounded-b-xl bg-[#111111] p-4">
                     <div className="flex items-center justify-between mb-3">
                       <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
                         Allowed Categories
@@ -309,7 +309,7 @@ export default function UsersTab() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleSelectAll(user)}
-                          className="text-[10px] text-purple-400 hover:text-purple-300 cursor-pointer"
+                          className="text-[10px] text-gray-400 hover:text-white cursor-pointer"
                         >
                           Select All
                         </button>
@@ -331,15 +331,15 @@ export default function UsersTab() {
                             key={cat}
                             className={`flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer transition-all border text-sm ${
                               isChecked
-                                ? "bg-purple-500/10 border-purple-500/30 text-purple-300"
-                                : "bg-[#0c0c14] border-[#1e1e30] text-gray-500 hover:border-[#2e2e50]"
+                                ? "bg-white/10 border-white/20 text-gray-200"
+                                : "bg-[#0c0c0c] border-[#1e1e1e] text-gray-500 hover:border-[#3a3a3a]"
                             }`}
                           >
                             <input
                               type="checkbox"
                               checked={isChecked}
                               onChange={() => toggleCategory(user, cat)}
-                              className="accent-purple-500 w-3.5 h-3.5"
+                              className="accent-white w-3.5 h-3.5"
                             />
                             <span className="text-xs font-medium">{cat}</span>
                           </label>
@@ -351,7 +351,7 @@ export default function UsersTab() {
                       <button
                         onClick={() => saveCategories(user)}
                         disabled={savingId === user.id}
-                        className="bg-purple-600 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-purple-500 transition-colors disabled:opacity-50 cursor-pointer"
+                        className="bg-white text-black px-5 py-2 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors disabled:opacity-50 cursor-pointer"
                       >
                         {savingId === user.id ? "Saving..." : "Save"}
                       </button>

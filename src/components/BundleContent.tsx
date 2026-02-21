@@ -48,7 +48,7 @@ export default function BundleContent({ bundleId }: { bundleId: string }) {
         {/* Back button */}
         <Link
           href={bundle ? `/category/${bundle.category.toLowerCase().replace(/\s+/g, "-")}` : "/"}
-          className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors mb-8 text-sm font-medium"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 text-sm font-medium"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -67,7 +67,7 @@ export default function BundleContent({ bundleId }: { bundleId: string }) {
             </div>
           </div>
         ) : !bundle ? (
-          <div className="text-center py-20 bg-[#14142a] rounded-2xl border border-[#2a2a4a]">
+          <div className="text-center py-20 bg-[#161616] rounded-2xl border border-[#2a2a2a]">
             <p className="text-gray-500">Bundle not found.</p>
           </div>
         ) : (
@@ -75,7 +75,7 @@ export default function BundleContent({ bundleId }: { bundleId: string }) {
             {/* Bundle header */}
             <div className="mb-8">
               <div className="flex items-center gap-4 mb-3">
-                <span className="text-4xl">📦</span>
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                 <div>
                   <h1 className="text-2xl font-bold text-white">{bundle.file_name}</h1>
                   {bundle.description && (
@@ -84,10 +84,10 @@ export default function BundleContent({ bundleId }: { bundleId: string }) {
                 </div>
               </div>
               <div className="flex gap-3 mt-4">
-                <span className="text-xs uppercase tracking-wider bg-purple-500/15 text-purple-300 px-3 py-1.5 rounded-full font-semibold border border-purple-500/20">
+                <span className="text-xs uppercase tracking-wider bg-white/10 text-gray-300 px-3 py-1.5 rounded-full font-semibold border border-white/20">
                   {bundle.category}
                 </span>
-                <span className="text-xs uppercase tracking-wider bg-[#1a1a35] text-gray-400 px-3 py-1.5 rounded-full font-semibold border border-[#2a2a4a]">
+                <span className="text-xs uppercase tracking-wider bg-[#1a1a1a] text-gray-400 px-3 py-1.5 rounded-full font-semibold border border-[#2a2a2a]">
                   {files.length} {files.length === 1 ? "file" : "files"}
                 </span>
               </div>
@@ -95,7 +95,7 @@ export default function BundleContent({ bundleId }: { bundleId: string }) {
 
             {/* Files grid */}
             {files.length === 0 ? (
-              <div className="text-center py-16 bg-[#14142a] rounded-2xl border border-[#2a2a4a]">
+              <div className="text-center py-16 bg-[#161616] rounded-2xl border border-[#2a2a2a]">
                 <p className="text-gray-500">No files in this bundle yet.</p>
               </div>
             ) : (

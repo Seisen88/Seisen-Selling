@@ -8,10 +8,10 @@ import { createClient } from "@/lib/supabase/client";
 const CATEGORY_COLORS: Record<string, string> = {
   Windows: "#00ADEF",
   Adobe: "#FF0000",
-  Krisp: "#7C3AED",
+  Krisp: "#a3a3a3",
   Utilities: "#F59E0B",
   Others: "#10B981",
-  Games: "#A855F7",
+  Games: "#a3a3a3",
   "Microsoft Office": "#D97706",
 };
 
@@ -26,13 +26,13 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
 };
 
 const CATEGORY_EMOJI: Record<string, string> = {
-  Windows: "🪟",
-  Adobe: "🎨",
-  Krisp: "🎙️",
-  Utilities: "🔧",
-  Others: "📦",
-  Games: "🎮",
-  "Microsoft Office": "📊",
+  Windows: "W",
+  Adobe: "A",
+  Krisp: "K",
+  Utilities: "U",
+  Others: "O",
+  Games: "G",
+  "Microsoft Office": "M",
 };
 
 const IMAGE_EXTENSIONS = ["png", "svg", "webp", "jpg", "jpeg", "gif"];
@@ -43,8 +43,8 @@ function CategoryIcon({ slug, category }: { slug: string; category: string }) {
 
   if (failed) {
     return (
-      <span className="text-6xl flex items-center justify-center w-full h-full">
-        {CATEGORY_EMOJI[category] || "📁"}
+      <span className="text-5xl font-bold text-white/30 flex items-center justify-center w-full h-full">
+        {CATEGORY_EMOJI[category] || "?"}
       </span>
     );
   }
@@ -67,7 +67,7 @@ function CategoryIcon({ slug, category }: { slug: string; category: string }) {
 
 export default function CategoryCard({ category }: { category: string }) {
   const slug = categoryToSlug(category);
-  const color = CATEGORY_COLORS[category] || "#7C3AED";
+  const color = CATEGORY_COLORS[category] || "#ffffff";
   const [fileCount, setFileCount] = useState<number | null>(null);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function CategoryCard({ category }: { category: string }) {
   return (
     <Link
       href={`/category/${slug}`}
-      className="group relative flex flex-col rounded-2xl overflow-hidden bg-[#0c0c14] border border-[#1e1e30] hover:border-[#2e2e50] transition-all duration-300 hover:-translate-y-1"
+      className="group relative flex flex-col rounded-2xl overflow-hidden bg-[#0c0c0c] border border-[#1e1e1e] hover:border-[#3a3a3a] transition-all duration-300 hover:-translate-y-1"
     >
       {/* ── Light ray bar ── */}
       <div
@@ -129,7 +129,7 @@ export default function CategoryCard({ category }: { category: string }) {
 
       {/* ── View content button ── */}
       <div className="px-4 pb-5">
-        <div className="bg-white text-[#0c0c14] text-xs font-bold text-center py-3 rounded-xl hover:bg-gray-100 transition-colors uppercase tracking-wider">
+        <div className="bg-white text-[#0c0c0c] text-xs font-bold text-center py-3 rounded-xl hover:bg-gray-100 transition-colors uppercase tracking-wider">
           View Content
         </div>
       </div>

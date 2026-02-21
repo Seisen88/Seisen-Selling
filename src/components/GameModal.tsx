@@ -66,10 +66,10 @@ export default function GameModal({
       {/* Modal */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-3xl max-h-[85vh] bg-[#0c0c14] border border-[#2a2a4a] rounded-2xl overflow-hidden flex flex-col"
+        className="relative w-full max-w-3xl max-h-[85vh] bg-[#0c0c0c] border border-[#2a2a2a] rounded-2xl overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e1e30] bg-[#0a0a16] shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e1e1e] bg-[#0a0a0a] shrink-0">
           <h2 className="text-lg font-bold text-white truncate pr-4">
             {file.file_name}
           </h2>
@@ -86,10 +86,10 @@ export default function GameModal({
         {/* Body — two columns */}
         <div className="flex flex-col sm:flex-row flex-1 min-h-0">
           {/* Left: image + size + description */}
-          <div className="sm:w-1/2 flex flex-col border-r border-[#1e1e30] overflow-y-auto">
+          <div className="sm:w-1/2 flex flex-col border-r border-[#1e1e1e] overflow-y-auto">
             {/* Thumbnail */}
             {thumbUrl && (
-              <div className="w-full aspect-[16/10] overflow-hidden bg-[#08080f] shrink-0">
+              <div className="w-full aspect-[16/10] overflow-hidden bg-[#080808] shrink-0">
                 <img
                   src={thumbUrl}
                   alt={file.file_name}
@@ -106,12 +106,12 @@ export default function GameModal({
               {/* Badges */}
               <div className="flex flex-wrap items-center gap-2">
                 {file.genre && (
-                  <span className="text-[11px] font-semibold px-3 py-1 rounded-full border text-white border-purple-400/30 bg-purple-600/80 uppercase tracking-wider">
+                  <span className="text-[11px] font-semibold px-3 py-1 rounded-full border text-white border-white/30 bg-white/10 uppercase tracking-wider">
                     {file.genre}
                   </span>
                 )}
                 {formatFileSize(file.file_size) && (
-                  <span className="text-[11px] font-semibold px-3 py-1 rounded-full border text-purple-400 border-purple-500/20 bg-purple-500/10">
+                  <span className="text-[11px] font-semibold px-3 py-1 rounded-full border text-gray-300 border-white/20 bg-white/5">
                     {formatFileSize(file.file_size)}
                   </span>
                 )}
@@ -152,17 +152,17 @@ export default function GameModal({
                       href={`/api/download/${file.id}/${index}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 p-3 rounded-xl bg-[#14142a] border border-[#1e1e30] hover:border-purple-500/30 hover:bg-purple-500/5 transition-all group"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-[#161616] border border-[#1e1e1e] hover:border-white/20 hover:bg-white/5 transition-all group"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center shrink-0">
-                        <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                        <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
                       </div>
                       <p className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors">
                         {partCount === 1 ? "Download" : `Part ${index + 1}`}
                       </p>
-                      <svg className="w-4 h-4 text-gray-600 group-hover:text-purple-400 transition-colors shrink-0 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-gray-600 group-hover:text-white transition-colors shrink-0 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </a>
@@ -189,15 +189,15 @@ export default function GameModal({
                     return (
                       <div
                         key={oldFile.id}
-                        className="rounded-xl border border-[#1e1e30] bg-[#0f0f1a] overflow-hidden"
+                        className="rounded-xl border border-[#1e1e1e] bg-[#0f0f0f] overflow-hidden"
                       >
                         {/* Older version header — clickable to expand */}
                         <button
                           onClick={() => toggleOlderVersion(oldFile)}
-                          className="w-full flex items-center gap-3 p-3 hover:bg-[#14142a] transition-colors cursor-pointer"
+                          className="w-full flex items-center gap-3 p-3 hover:bg-[#161616] transition-colors cursor-pointer"
                         >
                           {/* Thumbnail mini */}
-                          <div className="w-10 h-10 rounded-lg overflow-hidden bg-[#08080f] shrink-0">
+                          <div className="w-10 h-10 rounded-lg overflow-hidden bg-[#080808] shrink-0">
                             {oldThumb ? (
                               <img
                                 src={oldThumb}
@@ -209,8 +209,8 @@ export default function GameModal({
                                 }}
                               />
                             ) : (
-                              <div className="w-full h-full flex items-center justify-center text-lg">
-                                🎮
+                              <div className="w-full h-full flex items-center justify-center">
+                                <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" /></svg>
                               </div>
                             )}
                           </div>
@@ -251,7 +251,7 @@ export default function GameModal({
 
                         {/* Expanded download parts */}
                         {isExpanded && (
-                          <div className="px-3 pb-3 border-t border-[#1e1e30]">
+                          <div className="px-3 pb-3 border-t border-[#1e1e1e]">
                             <div className="pt-3 space-y-1.5">
                               {isLoadingParts ? (
                                 <div className="space-y-1.5">
@@ -266,7 +266,7 @@ export default function GameModal({
                                     href={`/api/download/${oldFile.id}/${index}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-2.5 p-2.5 rounded-lg bg-[#14142a] border border-[#1e1e30] hover:border-gray-500/30 hover:bg-gray-500/5 transition-all group"
+                                    className="flex items-center gap-2.5 p-2.5 rounded-lg bg-[#161616] border border-[#1e1e1e] hover:border-gray-500/30 hover:bg-gray-500/5 transition-all group"
                                   >
                                     <div className="w-6 h-6 rounded-md bg-gray-500/15 flex items-center justify-center shrink-0">
                                       <svg

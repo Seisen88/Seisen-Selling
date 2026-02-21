@@ -37,6 +37,7 @@ export async function middleware(request: NextRequest) {
   const isLoginPage = request.nextUrl.pathname === "/login";
   const isAuthCallback = request.nextUrl.pathname.startsWith("/auth/callback");
   const isAuthApi = request.nextUrl.pathname.startsWith("/api/auth");
+  const isPublicGames = request.nextUrl.pathname === "/games" || request.nextUrl.pathname.startsWith("/api/games/public");
 
   // Redirect logged-in users away from login page
   if (isLoginPage && user) {
@@ -46,7 +47,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Protect all other routes — require login
-  if (!user && !isLoginPage && !isAuthCallback && !isAuthApi) {
+  if (!user && !isLoginPage && !isAuthCallback && !isAuthApi && !isPublicGames) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);

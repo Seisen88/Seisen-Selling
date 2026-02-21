@@ -96,7 +96,7 @@ export default function ExportFilesButton({ files }: ExportFilesButtonProps) {
       body: tableRows,
       startY: 30,
       theme: 'grid',
-      headStyles: { fillColor: [124, 58, 237] },
+      headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0] },
     });
 
     doc.save(onlyRecent ? "Files_Last_2_Days.pdf" : "Files_List.pdf");
@@ -164,7 +164,7 @@ export default function ExportFilesButton({ files }: ExportFilesButtonProps) {
     <div className="relative z-50" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-xl font-medium text-sm transition-colors shadow-lg shadow-purple-500/20 whitespace-nowrap border border-purple-500/50 cursor-pointer"
+        className="flex items-center gap-2 bg-white hover:bg-gray-200 text-black px-4 py-2 rounded-xl font-medium text-sm transition-colors shadow-lg shadow-white/10 whitespace-nowrap border border-white/50 cursor-pointer"
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -173,38 +173,38 @@ export default function ExportFilesButton({ files }: ExportFilesButtonProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-[#14142a] border border-[#2a2a4a] rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 flex flex-col z-50">
+        <div className="absolute right-0 mt-2 w-56 bg-[#161616] border border-[#2a2a2a] rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 flex flex-col z-50">
           {/* All Files Section */}
           <div className="px-3 pt-2.5 pb-1">
             <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">All Files</p>
           </div>
           <button
             onClick={() => exportAsExcel()}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-purple-500/10 hover:text-purple-300 transition-colors text-left cursor-pointer"
+            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors text-left cursor-pointer"
           >
-            📗 Excel (.xlsx)
+            Excel (.xlsx)
           </button>
           <button
             onClick={() => exportAsTXT()}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-purple-500/10 hover:text-purple-300 transition-colors text-left cursor-pointer"
+            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors text-left cursor-pointer"
           >
-            📝 Note (.txt)
+            Note (.txt)
           </button>
           <button
             onClick={() => exportAsWord()}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-purple-500/10 hover:text-purple-300 transition-colors text-left cursor-pointer"
+            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors text-left cursor-pointer"
           >
-            📘 Word (.doc)
+            Word (.doc)
           </button>
           <button
             onClick={() => exportAsPDF()}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-purple-500/10 hover:text-purple-300 transition-colors text-left cursor-pointer"
+            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-white transition-colors text-left cursor-pointer"
           >
-            📕 PDF (.pdf)
+            PDF (.pdf)
           </button>
 
           {/* Divider */}
-          <div className="mx-3 my-1 border-t border-[#2a2a4a]" />
+          <div className="mx-3 my-1 border-t border-[#2a2a2a]" />
 
           {/* Last 2 Days Section */}
           <div className="px-3 pt-1.5 pb-1">
@@ -216,7 +216,7 @@ export default function ExportFilesButton({ files }: ExportFilesButtonProps) {
             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(16,185,129,0.1)'; e.currentTarget.style.color = '#6ee7b7'; }}
             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.color = ''; }}
           >
-            📗 Excel (.xlsx)
+            Excel (.xlsx)
           </button>
           <button
             onClick={() => exportAsTXT(true)}
@@ -224,7 +224,7 @@ export default function ExportFilesButton({ files }: ExportFilesButtonProps) {
             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(16,185,129,0.1)'; e.currentTarget.style.color = '#6ee7b7'; }}
             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.color = ''; }}
           >
-            📝 Note (.txt)
+            Note (.txt)
           </button>
           <button
             onClick={() => exportAsWord(true)}
@@ -232,7 +232,7 @@ export default function ExportFilesButton({ files }: ExportFilesButtonProps) {
             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(16,185,129,0.1)'; e.currentTarget.style.color = '#6ee7b7'; }}
             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.color = ''; }}
           >
-            📘 Word (.doc)
+            Word (.doc)
           </button>
           <button
             onClick={() => exportAsPDF(true)}
@@ -240,7 +240,7 @@ export default function ExportFilesButton({ files }: ExportFilesButtonProps) {
             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(16,185,129,0.1)'; e.currentTarget.style.color = '#6ee7b7'; }}
             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.color = ''; }}
           >
-            📕 PDF (.pdf)
+            PDF (.pdf)
           </button>
         </div>
       )}

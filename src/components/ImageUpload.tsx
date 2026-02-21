@@ -56,8 +56,8 @@ export default function ImageUpload({
           onClick={() => setMode("url")}
           className={`px-3 py-1 text-xs rounded-lg font-medium cursor-pointer transition-all ${
             mode === "url"
-              ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
-              : "bg-[#1a1a35] text-gray-400 border border-[#2a2a4a]"
+              ? "bg-white/10 text-gray-300 border border-white/20"
+              : "bg-[#1c1c1c] text-gray-400 border border-[#2a2a2a]"
           }`}
         >
           URL
@@ -67,8 +67,8 @@ export default function ImageUpload({
           onClick={() => setMode("upload")}
           className={`px-3 py-1 text-xs rounded-lg font-medium cursor-pointer transition-all ${
             mode === "upload"
-              ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
-              : "bg-[#1a1a35] text-gray-400 border border-[#2a2a4a]"
+              ? "bg-white/10 text-gray-300 border border-white/20"
+              : "bg-[#1c1c1c] text-gray-400 border border-[#2a2a2a]"
           }`}
         >
           Upload
@@ -81,7 +81,7 @@ export default function ImageUpload({
           value={value}
           onChange={(e) => handleUrlChange(e.target.value)}
           placeholder="Paste a direct image URL (e.g. .png, .jpg, .webp)"
-          className="w-full px-3 py-2.5 rounded-xl bg-[#0f0f1a] border border-[#2a2a4a] focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition text-sm text-gray-200 placeholder-gray-500"
+          className="w-full px-3 py-2.5 rounded-xl bg-[#111111] border border-[#2a2a2a] focus:ring-2 focus:ring-white/20 focus:border-transparent outline-none transition text-sm text-gray-200 placeholder-gray-500"
         />
       ) : (
         <div>
@@ -90,7 +90,7 @@ export default function ImageUpload({
             accept="image/*"
             onChange={handleUpload}
             disabled={uploading}
-            className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-purple-500/15 file:text-purple-300 hover:file:bg-purple-500/25 file:cursor-pointer file:border file:border-purple-500/20"
+            className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-gray-300 hover:file:bg-white/15 file:cursor-pointer file:border file:border-white/20"
           />
           {uploading && (
             <p className="text-xs text-gray-500 mt-1">Uploading...</p>
@@ -112,7 +112,7 @@ export default function ImageUpload({
             <img
               src={resolveThumbnailUrl(value)}
               alt="Preview"
-              className="h-20 w-20 object-cover rounded-xl border border-[#2a2a4a]"
+              className="h-20 w-20 object-cover rounded-xl border border-[#2a2a2a]"
               referrerPolicy="no-referrer"
               onError={() => setImgError(true)}
             />
