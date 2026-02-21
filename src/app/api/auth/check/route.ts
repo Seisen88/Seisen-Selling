@@ -18,12 +18,12 @@ export async function POST(request: NextRequest) {
       .from("users")
       .select("role")
       .eq("email", email.toLowerCase().trim())
-      .single();
+      .maybeSingle();
 
     if (profileError) {
       console.error("Profile error:", profileError);
       return NextResponse.json(
-        { error: profileError.message },
+        { error: "Something went wrong. Please try again." },
         { status: 500 }
       );
     }
