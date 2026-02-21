@@ -140,7 +140,7 @@ export default function UsersTab() {
 
     await supabase
       .from("users")
-      .update({ allowed_categories: value, can_delete: user.can_delete ?? false })
+      .update({ allowed_categories: value })
       .eq("id", user.id);
 
     setSavingId(null);
