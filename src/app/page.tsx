@@ -5,7 +5,7 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
-      <div className="relative min-h-screen overflow-hidden">
+      <div className="relative min-h-screen overflow-hidden flex flex-col">
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Grid pattern overlay */}
@@ -30,7 +30,7 @@ export default function HomePage() {
           <div className="absolute bottom-60 left-20 w-1 h-1 rounded-full bg-white/20" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1">
           {/* Hero section — left aligned, compact */}
           <div className="mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gray-300 text-[11px] font-medium mb-3">
@@ -47,13 +47,13 @@ export default function HomePage() {
           </div>
 
           <CategoryGrid />
+        </div>
 
-          {/* Footer text */}
-          <div className="text-center mt-16">
-            <p className="text-[11px] text-gray-700 uppercase tracking-widest">
-              Powered by Reiya 零夜
-            </p>
-          </div>
+        {/* Footer text */}
+        <div className="text-center py-6">
+          <p className="text-[11px] text-white uppercase tracking-widest">
+            Powered by Reiya 零夜
+          </p>
         </div>
       </div>
     </>

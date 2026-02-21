@@ -268,7 +268,7 @@ export default function GamesListPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#2a2a2a] mt-12 py-6 text-center text-xs text-gray-600">
+      <footer className="border-t border-[#2a2a2a] mt-12 py-6 text-center text-xs text-white">
         Powered by Reiya 零夜
       </footer>
     </div>

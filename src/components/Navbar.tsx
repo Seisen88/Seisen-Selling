@@ -62,7 +62,7 @@ export default function Navbar() {
   if (isLoginPage) return null;
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#0a0a0a]/80 border-b border-[#2a2a2a]">
+    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-[#0a0a0a]/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link
