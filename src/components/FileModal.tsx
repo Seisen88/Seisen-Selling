@@ -130,7 +130,7 @@ export default function FileModal({
           <div className="sm:w-1/2 flex flex-col overflow-y-auto">
             <div className="p-5">
               <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                Download Parts ({partCount})
+                {partCount === 1 ? "Download" : `Download Parts (${partCount})`}
               </h3>
 
               {loadingParts ? (
@@ -162,7 +162,7 @@ export default function FileModal({
                         </svg>
                       </div>
                       <p className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors">
-                        Part {index + 1}
+                        {partCount === 1 ? "Download" : `Part ${index + 1}`}
                       </p>
                       <svg 
                         className="w-4 h-4 text-gray-600 transition-colors shrink-0 ml-auto" 

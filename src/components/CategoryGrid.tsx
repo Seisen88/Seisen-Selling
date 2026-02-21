@@ -12,6 +12,20 @@ export default function CategoryGrid() {
   const supabase = createClient();
 
   useEffect(() => {
+    let channel: ReturnType<typeof supabase.channel> | null = null;
+
+    function applyCategories(role: string, allowed: string | null) {
+      if (role === "admin" || role === "sub_admin") {
+        setAllowedCategories(null);
+      } else if (allowed === "all") {
+        setAllowedCategories(null);
+      } else if (allowed) {
+        setAllowedCategories(allowed.split(",").filter(Boolean));
+      } else {
+        setAllowedCategories([]);
+      }
+    }
+
     async function fetchData() {
       // Get current user's profile
       const { data: { user } } = await supabase.auth.getUser();
@@ -24,19 +38,21 @@ export default function CategoryGrid() {
           .single();
 
         if (profile) {
-          // Admins and sub_admins see everything on the main site
-          if (profile.role === "admin" || profile.role === "sub_admin") {
-            setAllowedCategories(null); // null = no filter
-          } else if (profile.allowed_categories === "all") {
-            setAllowedCategories(null);
-          } else if (profile.allowed_categories) {
-            setAllowedCategories(
-              profile.allowed_categories.split(",").filter(Boolean)
-            );
-          } else {
-            setAllowedCategories([]); // No categories assigned = see nothing
-          }
+          applyCategories(profile.role, profile.allowed_categories);
         }
+
+        // Subscribe to real-time changes on this user's row
+        channel = supabase
+          .channel(`user-categories-${user.id}`)
+          .on(
+            "postgres_changes" as any,
+            { event: "UPDATE", schema: "public", table: "users", filter: `id=eq.${user.id}` },
+            (payload: any) => {
+              const updated = payload.new;
+              applyCategories(updated.role, updated.allowed_categories);
+            }
+          )
+          .subscribe();
       }
 
       // Get categories that have files
@@ -52,6 +68,10 @@ export default function CategoryGrid() {
     }
 
     fetchData();
+
+    return () => {
+      if (channel) supabase.removeChannel(channel);
+    };
   }, []);
 
   if (loading) {

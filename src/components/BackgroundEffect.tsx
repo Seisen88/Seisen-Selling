@@ -22,49 +22,38 @@ export default function BackgroundEffect() {
     () => ({
       fullScreen: { enable: false },
       background: { color: { value: "transparent" } },
-      fpsLimit: 120,
+      fpsLimit: 60,
       interactivity: {
         events: {
           onHover: {
             enable: true,
             mode: "grab",
           },
-          onClick: {
-            enable: true,
-            mode: "push",
-          },
         },
         modes: {
           grab: {
-            distance: 180,
+            distance: 140,
             links: {
-              opacity: 0.5,
+              opacity: 0.4,
               color: "#ffffff",
             },
-          },
-          push: {
-            quantity: 4,
-          },
-          repulse: {
-            distance: 150,
-            duration: 0.4,
           },
         },
       },
       particles: {
         color: {
-          value: ["#ffffff", "#d4d4d4", "#a0a0a0", "#737373", "#e5e5e5", "#b0b0b0"],
+          value: ["#ffffff", "#d4d4d4", "#a0a0a0"],
         },
         links: {
           color: "#ffffff",
-          distance: 150,
+          distance: 130,
           enable: true,
-          opacity: 0.08,
+          opacity: 0.06,
           width: 1,
         },
         move: {
           enable: true,
-          speed: 1.2,
+          speed: 0.8,
           direction: "none" as const,
           random: true,
           straight: false,
@@ -76,7 +65,8 @@ export default function BackgroundEffect() {
           density: {
             enable: true,
           },
-          value: 100,
+          value: 50,
+          limit: { value: 60 },
         },
         opacity: {
           value: { min: 0.2, max: 0.5 },

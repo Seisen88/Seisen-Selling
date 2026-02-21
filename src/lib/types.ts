@@ -46,6 +46,7 @@ export const CATEGORIES = [
   "Others",
   "Games",
   "Microsoft Office",
+  "Engineering Software",
 ] as const;
 
 export type Category = (typeof CATEGORIES)[number];
@@ -58,6 +59,7 @@ export const CATEGORY_SLUGS: Record<string, string> = {
   others: "Others",
   games: "Games",
   "microsoft-office": "Microsoft Office",
+  "engineering-software": "Engineering Software",
 };
 
 export const CATEGORY_ICONS: Record<string, string> = {
@@ -68,6 +70,7 @@ export const CATEGORY_ICONS: Record<string, string> = {
   Others: "O",
   Games: "G",
   "Microsoft Office": "M",
+  "Engineering Software": "E",
 };
 
 export function categoryToSlug(category: string): string {
