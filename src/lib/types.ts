@@ -1,4 +1,4 @@
-export type UserRole = "user" | "admin";
+export type UserRole = "user" | "admin" | "sub_admin";
 
 export interface Profile {
   id: string;
@@ -6,6 +6,7 @@ export interface Profile {
   role: UserRole;
   created_at: string;
   allowed_categories?: string | null;
+  can_delete?: boolean;
 }
 
 export interface Bundle {

@@ -77,7 +77,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {!loading && (
               <>
-                {profile?.role === "admin" && (
+                {(profile?.role === "admin" || profile?.role === "sub_admin") && (
                   <Link
                     href="/admin"
                     className="bg-white/10 text-gray-300 border border-white/20 px-4 py-2 rounded-lg text-sm font-medium hover:bg-white/15 hover:border-white/30 transition-all"

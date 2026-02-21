@@ -41,7 +41,7 @@ export default function CategoryContent({ category }: { category: string }) {
           .eq("id", user.id)
           .single();
 
-        if (profile && profile.role !== "admin") {
+        if (profile && profile.role !== "admin" && profile.role !== "sub_admin") {
           if (!profile.allowed_categories) {
             setAccessDenied(true);
             setLoading(false);

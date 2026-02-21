@@ -3,9 +3,18 @@
 import { useState } from "react";
 import FileForm from "./FileForm";
 
-export default function AddFileTab() {
+interface AddFileTabProps {
+  allowedCategories?: string[];
+}
+
+export default function AddFileTab({ allowedCategories }: AddFileTabProps) {
   const [success, setSuccess] = useState(false);
   const [formKey, setFormKey] = useState(0);
+
+  // Determine default category based on allowed categories
+  const defaultCategory = allowedCategories && allowedCategories.length > 0
+    ? (allowedCategories.includes("Games") ? "Games" : allowedCategories[0])
+    : "Games";
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -30,7 +39,8 @@ export default function AddFileTab() {
         <FileForm
           key={formKey}
           persistDraft
-          defaultCategory="Games"
+          defaultCategory={defaultCategory}
+          allowedCategories={allowedCategories}
           onSaved={() => {
             setSuccess(true);
             setFormKey((k) => k + 1);

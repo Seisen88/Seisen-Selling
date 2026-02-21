@@ -11,6 +11,7 @@ interface FileFormProps {
   onCancel: () => void;
   persistDraft?: boolean;
   defaultCategory?: string;
+  allowedCategories?: string[];
 }
 
 const DRAFT_KEY = "reiya-add-file-draft";
@@ -30,7 +31,11 @@ interface DraftData {
   thumbnailUrl: string;
 }
 
-export default function FileForm({ file, onSaved, onCancel, persistDraft, defaultCategory }: FileFormProps) {
+export default function FileForm({ file, onSaved, onCancel, persistDraft, defaultCategory, allowedCategories }: FileFormProps) {
+  // Determine which categories this user can select from
+  const availableCategories = allowedCategories && allowedCategories.length > 0
+    ? CATEGORIES.filter(c => allowedCategories.includes(c))
+    : [...CATEGORIES];
   // Load draft from localStorage if persistDraft is enabled and no file is being edited
   const draft: DraftData | null = (() => {
     if (!persistDraft || file) return null;
@@ -70,7 +75,7 @@ export default function FileForm({ file, onSaved, onCancel, persistDraft, defaul
   const parsed = bytesToHuman(Number(file?.file_size) || 0);
   const [sizeValue, setSizeValue] = useState(draft?.sizeValue ?? parsed.value);
   const [sizeUnit, setSizeUnit] = useState(draft?.sizeUnit ?? parsed.unit);
-  const [category, setCategory] = useState(draft?.category || file?.category || defaultCategory || CATEGORIES[0]);
+  const [category, setCategory] = useState(draft?.category || file?.category || defaultCategory || availableCategories[0] || CATEGORIES[0]);
   const [parentId, setParentId] = useState(draft?.parentId || file?.parent_id || "");
   const [isBundle, setIsBundle] = useState(draft?.isBundle ?? file?.is_bundle ?? false);
   const [status, setStatus] = useState(draft?.status || file?.status || "active");
@@ -356,7 +361,7 @@ export default function FileForm({ file, onSaved, onCancel, persistDraft, defaul
               }}
               className={inputClass}
             >
-              {CATEGORIES.map((cat) => (
+              {availableCategories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>

@@ -24,8 +24,8 @@ export default function CategoryGrid() {
           .single();
 
         if (profile) {
-          // Admins see everything
-          if (profile.role === "admin") {
+          // Admins and sub_admins see everything on the main site
+          if (profile.role === "admin" || profile.role === "sub_admin") {
             setAllowedCategories(null); // null = no filter
           } else if (profile.allowed_categories === "all") {
             setAllowedCategories(null);

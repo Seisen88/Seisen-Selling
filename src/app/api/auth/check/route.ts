@@ -38,8 +38,8 @@ export async function POST(request: NextRequest) {
 
     console.log("Profile found:", profile);
 
-    // If admin, just tell the client to show password field
-    if (profile.role === "admin") {
+    // If admin or sub_admin, just tell the client to show password field
+    if (profile.role === "admin" || profile.role === "sub_admin") {
       return NextResponse.json({ isAdmin: true });
     }
   } catch (err) {

@@ -20,13 +20,19 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (!profile || profile.role !== "admin") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return NextResponse.json({ error: "Forbidden - only head admins can add users" }, { status: 403 });
   }
 
   const { email, role, password } = await request.json();
 
   if (!email) {
     return NextResponse.json({ error: "Email is required" }, { status: 400 });
+  }
+
+  // Validate role
+  const validRoles = ["user", "admin", "sub_admin"];
+  if (role && !validRoles.includes(role)) {
+    return NextResponse.json({ error: "Invalid role" }, { status: 400 });
   }
 
   const adminClient = createAdminClient();
@@ -86,7 +92,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  // Verify the requester is an admin
+  // Verify the requester is a head admin
   const supabase = await createClient();
   const {
     data: { user },
@@ -103,7 +109,7 @@ export async function DELETE(request: NextRequest) {
     .single();
 
   if (!profile || profile.role !== "admin") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return NextResponse.json({ error: "Forbidden - only head admins can delete users" }, { status: 403 });
   }
 
   const { userId } = await request.json();

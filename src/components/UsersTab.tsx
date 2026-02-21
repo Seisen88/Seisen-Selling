@@ -11,7 +11,7 @@ export default function UsersTab() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [newEmail, setNewEmail] = useState("");
-  const [newRole, setNewRole] = useState<"user" | "admin">("user");
+  const [newRole, setNewRole] = useState<"user" | "admin" | "sub_admin">("user");
   const [newPassword, setNewPassword] = useState("");
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState("");
@@ -49,7 +49,7 @@ export default function UsersTab() {
       body: JSON.stringify({
         email: trimmedEmail,
         role: newRole,
-        ...(newRole === "admin" && newPassword ? { password: newPassword } : {}),
+        ...((newRole === "admin" || newRole === "sub_admin") && newPassword ? { password: newPassword } : {}),
       }),
     });
 
@@ -140,7 +140,7 @@ export default function UsersTab() {
 
     await supabase
       .from("users")
-      .update({ allowed_categories: value })
+      .update({ allowed_categories: value, can_delete: user.can_delete ?? false })
       .eq("id", user.id);
 
     setSavingId(null);
@@ -179,10 +179,11 @@ export default function UsersTab() {
               </label>
               <select
                 value={newRole}
-                onChange={(e) => setNewRole(e.target.value as "user" | "admin")}
+                onChange={(e) => setNewRole(e.target.value as "user" | "admin" | "sub_admin")}
                 className="px-3 py-2 rounded-xl bg-[#111111] border border-[#2a2a2a] focus:ring-2 focus:ring-white/20 focus:border-transparent outline-none transition text-sm text-gray-200"
               >
                 <option value="user">User</option>
+                <option value="sub_admin">Sub Admin</option>
                 <option value="admin">Admin</option>
               </select>
             </div>
@@ -194,7 +195,7 @@ export default function UsersTab() {
               {adding ? "Adding..." : "Add User"}
             </button>
           </div>
-          {newRole === "admin" && (
+          {(newRole === "admin" || newRole === "sub_admin") && (
             <div>
               <label className="block text-xs font-medium text-gray-400 mb-1">
                 Password
@@ -257,10 +258,12 @@ export default function UsersTab() {
                         className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
                           user.role === "admin"
                             ? "bg-white/10 text-gray-300 border border-white/20"
+                            : user.role === "sub_admin"
+                            ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
                             : "bg-[#1c1c1c] text-gray-400 border border-[#2a2a2a]"
                         }`}
                       >
-                        {user.role}
+                        {user.role === "sub_admin" ? "sub admin" : user.role}
                       </span>
                       <span className="text-xs text-gray-500">
                         Joined {new Date(user.created_at).toLocaleDateString()}
@@ -346,6 +349,32 @@ export default function UsersTab() {
                         );
                       })}
                     </div>
+
+                    {/* Can Delete toggle — only for sub_admin */}
+                    {user.role === "sub_admin" && (
+                      <div className="mt-4 pt-4 border-t border-[#2a2a2a]">
+                        <label className="flex items-center gap-3 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={user.can_delete ?? false}
+                            onChange={() => {
+                              setUsers((prev) =>
+                                prev.map((u) =>
+                                  u.id === user.id
+                                    ? { ...u, can_delete: !u.can_delete }
+                                    : u
+                                )
+                              );
+                            }}
+                            className="accent-red-500 w-4 h-4"
+                          />
+                          <div>
+                            <span className="text-sm font-medium text-gray-200">Allow Delete</span>
+                            <p className="text-[10px] text-gray-500">Sub admin can delete files and games in the admin panel</p>
+                          </div>
+                        </label>
+                      </div>
+                    )}
 
                     <div className="mt-4 flex justify-end">
                       <button

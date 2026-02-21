@@ -8,7 +8,11 @@ import SearchBar from "./SearchBar";
 import FileForm from "./FileForm";
 import ExportFilesButton from "./ExportFilesButton";
 
-export default function FilesTab() {
+interface FilesTabProps {
+  canDelete?: boolean;
+}
+
+export default function FilesTab({ canDelete = true }: FilesTabProps) {
   const [files, setFiles] = useState<FileRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -130,12 +134,14 @@ export default function FilesTab() {
                       >
                         {editingId === file.id ? "Close" : "Edit"}
                       </button>
-                      <button
-                        onClick={() => handleDelete(file.id)}
-                        className="text-sm text-red-400 hover:text-red-300 font-medium cursor-pointer transition-colors"
-                      >
-                        Delete
-                      </button>
+                      {canDelete && (
+                        <button
+                          onClick={() => handleDelete(file.id)}
+                          className="text-sm text-red-400 hover:text-red-300 font-medium cursor-pointer transition-colors"
+                        >
+                          Delete
+                        </button>
+                      )}
                     </div>
                   </div>
 
