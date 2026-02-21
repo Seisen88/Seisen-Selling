@@ -21,6 +21,7 @@ export default function CategoryContent({ category }: { category: string }) {
   const [search, setSearch] = useState("");
   const [selectedGame, setSelectedGame] = useState<FileRecord | null>(null);
   const [selectedFile, setSelectedFile] = useState<FileRecord | null>(null);
+  const [oldVersionFiles, setOldVersionFiles] = useState<FileRecord[]>([]);
   const [gamesPage, setGamesPage] = useState(1);
   const [accessDenied, setAccessDenied] = useState(false);
   const [sortBy, setSortBy] = useState<"recent" | "az" | "za">("recent");
@@ -72,6 +73,17 @@ export default function CategoryContent({ category }: { category: string }) {
         .eq("category", category)
         .is("parent_id", null)
         .eq("is_bundle", false)
+        .neq("status", "old")
+        .order("updated_at", { ascending: false });
+
+      // Fetch old version files separately
+      const { data: oldFilesData } = await supabase
+        .from("files")
+        .select("*")
+        .eq("category", category)
+        .is("parent_id", null)
+        .eq("is_bundle", false)
+        .eq("status", "old")
         .order("updated_at", { ascending: false });
 
       // Strip storage_url from client-side data
@@ -84,6 +96,7 @@ export default function CategoryContent({ category }: { category: string }) {
         }))
       );
       setStandaloneFiles((filesData || []).map(stripUrl));
+      setOldVersionFiles((oldFilesData || []).map(stripUrl));
       setLoading(false);
     }
 
@@ -136,6 +149,23 @@ export default function CategoryContent({ category }: { category: string }) {
   useEffect(() => {
     setGamesPage(1);
   }, [search]);
+
+  // Find older versions for a given game by matching the base name
+  const getOlderVersions = (game: FileRecord): FileRecord[] => {
+    // Strip version suffixes: "Game v2.0" -> "Game"
+    const extractBase = (name: string) => {
+      const match = name.match(/^(.*?)(?:\s+(?:v\d|version\s*\d|edition|\(|\[|-).*?)?$/i);
+      return (match ? match[1].trim() : name.trim()).toLowerCase();
+    };
+    const baseName = extractBase(game.file_name);
+    if (baseName.length <= 2) return [];
+
+    return oldVersionFiles.filter((f) => {
+      if (f.id === game.id) return false;
+      const fBase = extractBase(f.file_name);
+      return fBase === baseName || f.file_name.toLowerCase() === game.file_name.toLowerCase();
+    });
+  };
 
   return (
     <>
@@ -303,7 +333,11 @@ export default function CategoryContent({ category }: { category: string }) {
 
       {/* Game modal */}
       {selectedGame && (
-        <GameModal file={selectedGame} onClose={() => setSelectedGame(null)} />
+        <GameModal
+          file={selectedGame}
+          olderVersions={getOlderVersions(selectedGame)}
+          onClose={() => setSelectedGame(null)}
+        />
       )}
 
       {/* File modal */}

@@ -21,7 +21,7 @@ export default function GamesTab() {
       .from("files")
       .select("*")
       .eq("category", "Games")
-      .order("file_name");
+      .order("upload_date", { ascending: false });
     setFiles(data || []);
     setLoading(false);
   };

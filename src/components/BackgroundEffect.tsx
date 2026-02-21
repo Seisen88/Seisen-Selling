@@ -1,44 +1,137 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { ISourceOptions } from "@tsparticles/engine";
 
 export default function BackgroundEffect() {
-  const [mounted, setMounted] = useState(false);
+  const [init, setInit] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
 
-  if (!mounted) return null;
+  const particlesLoaded = useCallback(async () => {}, []);
+
+  const options: ISourceOptions = useMemo(
+    () => ({
+      fullScreen: { enable: false },
+      background: { color: { value: "transparent" } },
+      fpsLimit: 120,
+      interactivity: {
+        events: {
+          onHover: {
+            enable: true,
+            mode: "grab",
+          },
+          onClick: {
+            enable: true,
+            mode: "push",
+          },
+        },
+        modes: {
+          grab: {
+            distance: 180,
+            links: {
+              opacity: 0.5,
+              color: "#a78bfa",
+            },
+          },
+          push: {
+            quantity: 4,
+          },
+          repulse: {
+            distance: 150,
+            duration: 0.4,
+          },
+        },
+      },
+      particles: {
+        color: {
+          value: ["#8b5cf6", "#a855f7", "#7c3aed", "#6366f1", "#818cf8", "#c084fc"],
+        },
+        links: {
+          color: "#8b5cf6",
+          distance: 150,
+          enable: true,
+          opacity: 0.15,
+          width: 1,
+        },
+        move: {
+          enable: true,
+          speed: 1.2,
+          direction: "none" as const,
+          random: true,
+          straight: false,
+          outModes: {
+            default: "bounce" as const,
+          },
+        },
+        number: {
+          density: {
+            enable: true,
+          },
+          value: 100,
+        },
+        opacity: {
+          value: { min: 0.3, max: 0.7 },
+          animation: {
+            enable: true,
+            speed: 0.5,
+            sync: false,
+          },
+        },
+        shape: {
+          type: "circle",
+        },
+        size: {
+          value: { min: 1, max: 3 },
+        },
+      },
+      detectRetina: true,
+    }),
+    []
+  );
+
+  if (!init) return null;
 
   return (
-    <div className="fixed inset-0 z-[-1] overflow-hidden bg-[#08080f] pointer-events-none">
-      <div className="absolute inset-0 w-full h-full opacity-60 mix-blend-screen">
-        {/* Blob 1: Vibrant Green */}
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-green-500/20 rounded-full blur-[120px] animate-blob mix-blend-screen" />
-        
-        {/* Blob 2: Emerald/Teal */}
-        <div className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] bg-emerald-600/20 rounded-full blur-[120px] animate-blob animation-delay-2000 mix-blend-screen" />
-        
-        {/* Blob 3: Deep Forest Green */}
-        <div className="absolute bottom-[-10%] left-[20%] w-[550px] h-[550px] bg-green-700/20 rounded-full blur-[120px] animate-blob animation-delay-4000 mix-blend-screen" />
+    <div className="fixed inset-0 z-[-1]" style={{ background: "var(--bg-primary)" }}>
+      {/* Large SEISEN watermark text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <h1
+          className="text-[12vw] font-extrabold tracking-[0.2em] uppercase"
+          style={{
+            color: "transparent",
+            WebkitTextStroke: "1px rgba(139, 92, 246, 0.08)",
+            textShadow: "0 0 80px rgba(139, 92, 246, 0.05)",
+            userSelect: "none",
+          }}
+        >
+          SEISEN
+        </h1>
       </div>
 
-      {/* Background Mesh Grid (optional, provides texture) */}
-      <div 
-        className="absolute inset-0 opacity-[0.03]" 
+      {/* Subtle radial glow behind the text */}
+      <div
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-          backgroundSize: '40px 40px'
+          background:
+            "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 70%)",
         }}
       />
 
-      {/* Overlay noise texture for premium grainy feel */}
-      <div 
-        className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-        }}
+      {/* Particles layer */}
+      <Particles
+        id="tsparticles"
+        particlesLoaded={particlesLoaded}
+        options={options}
+        className="absolute inset-0 w-full h-full"
       />
     </div>
   );
