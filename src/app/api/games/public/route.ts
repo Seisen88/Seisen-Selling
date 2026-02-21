@@ -11,6 +11,7 @@ export async function GET() {
     .from("files")
     .select("id, file_name, thumbnail_url, upload_date, updated_at, status, genre, file_size")
     .eq("category", "Games")
+    .neq("status", "old")
     .order("upload_date", { ascending: false });
 
   if (error) {
