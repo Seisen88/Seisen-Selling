@@ -39,41 +39,20 @@ export interface FileRecord {
 }
 
 export const CATEGORIES = [
-  "Windows",
-  "Adobe",
-  "Krisp",
   "Utilities",
-  "Others",
   "Games",
-  "Microsoft Office",
-  "Engineering Software",
-  "Ghost Spectre",
 ] as const;
 
 export type Category = (typeof CATEGORIES)[number];
 
 export const CATEGORY_SLUGS: Record<string, string> = {
-  windows: "Windows",
-  adobe: "Adobe",
-  krisp: "Krisp",
   utilities: "Utilities",
-  others: "Others",
   games: "Games",
-  "microsoft-office": "Microsoft Office",
-  "engineering-software": "Engineering Software",
-  "ghost-spectre": "Ghost Spectre",
 };
 
 export const CATEGORY_ICONS: Record<string, string> = {
-  Windows: "W",
-  Adobe: "A",
-  Krisp: "K",
   Utilities: "U",
-  Others: "O",
   Games: "G",
-  "Microsoft Office": "M",
-  "Engineering Software": "E",
-  "Ghost Spectre": "GS",
 };
 
 export function categoryToSlug(category: string): string {
