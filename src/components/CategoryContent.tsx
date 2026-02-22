@@ -174,8 +174,8 @@ export default function CategoryContent({ category }: { category: string }) {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center py-20 bg-[#161616] rounded-2xl border border-[#2a2a2a]">
             <svg className="w-12 h-12 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-            <h2 className="text-xl font-bold text-white mb-2">Access Denied</h2>
-            <p className="text-gray-500 mb-6">You don&apos;t have permission to view this category.</p>
+            <h2 className="text-xl font-bold text-white mb-2">Access Restricted</h2>
+            <p className="text-gray-500 mb-6 max-w-md mx-auto">You don&apos;t have access to this category right now. If you bought this bundle, please ensure you&apos;re logged into the correct account or contact support.</p>
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
