@@ -37,6 +37,22 @@ export function formatFileSize(bytes: number | string | null | undefined): strin
 }
 
 /**
+ * Extracts a version string from a file name.
+ * e.g. "Game v2.0" → "v2.0", "App Version 3.1" → "v3.1", "Tool (1.2.3)" → "v1.2.3"
+ * Returns null if no version is found.
+ */
+export function extractVersion(fileName: string): string | null {
+  if (!fileName) return null;
+  // Match: v1.0, v2.3.1, Version 3, ver1.0
+  const vMatch = fileName.match(/(?:v|ver(?:sion)?\s*)([\d]+(?:\.[\d]+)*)/i);
+  if (vMatch) return `v${vMatch[1]}`;
+  // Match version in parentheses: (1.2.3) or [1.2.3]
+  const bracketMatch = fileName.match(/[\(\[]([\d]+(?:\.[\d]+)+)[\)\]]/i);
+  if (bracketMatch) return `v${bracketMatch[1]}`;
+  return null;
+}
+
+/**
  * Determines the status of a file based on its created_at and updated_at date.
  * Returns "NEW", "UPDATED", or null.
  * Disappears after 5 days.

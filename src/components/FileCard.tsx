@@ -1,7 +1,7 @@
 "use client";
 
 import type { FileRecord } from "@/lib/types";
-import { resolveThumbnailUrl, formatFileSize, getFileStatus } from "@/lib/utils";
+import { resolveThumbnailUrl, formatFileSize, getFileStatus, extractVersion } from "@/lib/utils";
 
 const CATEGORY_COLORS: Record<string, string> = {
   Windows: "#00ADEF",
@@ -37,7 +37,7 @@ export default function FileCard({ file, onClick }: { file: FileRecord; onClick?
             file.status === "old" ? "bg-gray-600" : status === "NEW" ? "bg-[#65d045]" : "bg-blue-500"
           }`} />
           
-          <span className="relative z-10">{file.status === "old" ? "OLD VERSION" : status}</span>
+          <span className="relative z-10">{file.status === "old" ? (extractVersion(file.file_name) ? `OLD ${extractVersion(file.file_name)}` : "OLD VERSION") : status}</span>
         </div>
       )}
 

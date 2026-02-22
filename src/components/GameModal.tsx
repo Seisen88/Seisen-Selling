@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { resolveThumbnailUrl, formatFileSize } from "@/lib/utils";
+import { resolveThumbnailUrl, formatFileSize, extractVersion } from "@/lib/utils";
 import type { FileRecord } from "@/lib/types";
 
 export default function GameModal({
@@ -234,7 +234,7 @@ export default function GameModal({
                             </p>
                             <div className="flex items-center gap-2 mt-0.5">
                               <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gray-600/50 text-gray-400 uppercase">
-                                Old Version
+                                {extractVersion(oldFile.file_name) ? `Old ${extractVersion(oldFile.file_name)}` : "Old Version"}
                               </span>
                               {formatFileSize(oldFile.file_size) && (
                                 <span className="text-[10px] text-gray-500">

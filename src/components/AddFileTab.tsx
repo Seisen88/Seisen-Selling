@@ -24,6 +24,7 @@ export default function AddFileTab({ allowedCategories }: AddFileTabProps) {
   const [activeView, setActiveView] = useState<"form" | "drafts">("form");
   const [drafts, setDrafts] = useState<DraftItem[]>([]);
   const [loadedDraft, setLoadedDraft] = useState<DraftData | null>(null);
+  const [loadedDraftId, setLoadedDraftId] = useState<string | null>(null);
 
   // Determine default category based on allowed categories
   const defaultCategory = allowedCategories && allowedCategories.length > 0
@@ -61,6 +62,7 @@ export default function AddFileTab({ allowedCategories }: AddFileTabProps) {
 
   const handleLoadDraft = (draft: DraftItem) => {
     setLoadedDraft(draft.data);
+    setLoadedDraftId(draft.id);
     setFormKey((k) => k + 1);
     setActiveView("form");
   };
@@ -146,6 +148,11 @@ export default function AddFileTab({ allowedCategories }: AddFileTabProps) {
             initialDraft={loadedDraft}
             onSaveAsDraft={handleSaveAsDraft}
             onSaved={() => {
+              // Remove the loaded draft on successful save
+              if (loadedDraftId) {
+                saveDraftsToStorage(drafts.filter((d) => d.id !== loadedDraftId));
+                setLoadedDraftId(null);
+              }
               setSuccess(true);
               setLoadedDraft(null);
               setFormKey((k) => k + 1);

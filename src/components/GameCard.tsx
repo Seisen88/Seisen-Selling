@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveThumbnailUrl, formatFileSize, getFileStatus } from "@/lib/utils";
+import { resolveThumbnailUrl, formatFileSize, getFileStatus, extractVersion } from "@/lib/utils";
 import type { FileRecord } from "@/lib/types";
 
 export default function GameCard({
@@ -35,7 +35,7 @@ export default function GameCard({
             file.status === "old" ? "bg-gray-600" : status === "NEW" ? "bg-[#65d045]" : "bg-blue-500"
           }`} />
           
-          <span className="relative z-10">{file.status === "old" ? "OLD VERSION" : status}</span>
+          <span className="relative z-10">{file.status === "old" ? (extractVersion(file.file_name) ? `OLD ${extractVersion(file.file_name)}` : "OLD VERSION") : status}</span>
         </div>
       )}
 
