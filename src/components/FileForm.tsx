@@ -5,18 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { CATEGORIES, type FileRecord, type Bundle } from "@/lib/types";
 import ImageUpload from "./ImageUpload";
 
-interface FileFormProps {
-  file?: FileRecord | null;
-  onSaved: () => void;
-  onCancel: () => void;
-  persistDraft?: boolean;
-  defaultCategory?: string;
-  allowedCategories?: string[];
-}
-
-const DRAFT_KEY = "reiya-add-file-draft";
-
-interface DraftData {
+export interface DraftData {
   name: string;
   url: string;
   urlParts: string[];
@@ -31,7 +20,20 @@ interface DraftData {
   thumbnailUrl: string;
 }
 
-export default function FileForm({ file, onSaved, onCancel, persistDraft, defaultCategory, allowedCategories }: FileFormProps) {
+interface FileFormProps {
+  file?: FileRecord | null;
+  onSaved: () => void;
+  onCancel: () => void;
+  persistDraft?: boolean;
+  defaultCategory?: string;
+  allowedCategories?: string[];
+  initialDraft?: DraftData | null;
+  onSaveAsDraft?: (data: DraftData) => void;
+}
+
+const DRAFT_KEY = "reiya-add-file-draft";
+
+export default function FileForm({ file, onSaved, onCancel, persistDraft, defaultCategory, allowedCategories, initialDraft, onSaveAsDraft }: FileFormProps) {
   // Determine which categories this user can select from
   const availableCategories = allowedCategories && allowedCategories.length > 0
     ? CATEGORIES.filter(c => allowedCategories.includes(c))
@@ -45,10 +47,11 @@ export default function FileForm({ file, onSaved, onCancel, persistDraft, defaul
     } catch { return null; }
   })();
 
-  const [name, setName] = useState(draft?.name || file?.file_name || "");
-  const [url, setUrl] = useState(draft?.url || file?.storage_url || "");
+  const init = initialDraft || draft;
+  const [name, setName] = useState(init?.name || file?.file_name || "");
+  const [url, setUrl] = useState(init?.url || file?.storage_url || "");
   const [urlParts, setUrlParts] = useState<string[]>(
-    draft?.urlParts ||
+    init?.urlParts ||
     (file?.category === "Games" && file?.storage_url
       ? file.storage_url.split("\n")
       : [""])
@@ -73,15 +76,15 @@ export default function FileForm({ file, onSaved, onCancel, persistDraft, defaul
   }
 
   const parsed = bytesToHuman(Number(file?.file_size) || 0);
-  const [sizeValue, setSizeValue] = useState(draft?.sizeValue ?? parsed.value);
-  const [sizeUnit, setSizeUnit] = useState(draft?.sizeUnit ?? parsed.unit);
-  const [category, setCategory] = useState(draft?.category || file?.category || defaultCategory || availableCategories[0] || CATEGORIES[0]);
-  const [parentId, setParentId] = useState(draft?.parentId || file?.parent_id || "");
-  const [isBundle, setIsBundle] = useState(draft?.isBundle ?? file?.is_bundle ?? false);
-  const [status, setStatus] = useState(draft?.status || file?.status || "active");
-  const [description, setDescription] = useState(draft?.description || file?.description || "");
-  const [genre, setGenre] = useState(draft?.genre || file?.genre || "");
-  const [thumbnailUrl, setThumbnailUrl] = useState(draft?.thumbnailUrl || file?.thumbnail_url || "");
+  const [sizeValue, setSizeValue] = useState(init?.sizeValue ?? parsed.value);
+  const [sizeUnit, setSizeUnit] = useState(init?.sizeUnit ?? parsed.unit);
+  const [category, setCategory] = useState(init?.category || file?.category || defaultCategory || availableCategories[0] || CATEGORIES[0]);
+  const [parentId, setParentId] = useState(init?.parentId || file?.parent_id || "");
+  const [isBundle, setIsBundle] = useState(init?.isBundle ?? file?.is_bundle ?? false);
+  const [status, setStatus] = useState(init?.status || file?.status || "active");
+  const [description, setDescription] = useState(init?.description || file?.description || "");
+  const [genre, setGenre] = useState(init?.genre || file?.genre || "");
+  const [thumbnailUrl, setThumbnailUrl] = useState(init?.thumbnailUrl || file?.thumbnail_url || "");
   const [bundles, setBundles] = useState<FileRecord[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -471,6 +474,19 @@ export default function FileForm({ file, onSaved, onCancel, persistDraft, defaul
           >
             {saving ? "Saving..." : file ? "Update File" : "Add File"}
           </button>
+          {onSaveAsDraft && (
+            <button
+              type="button"
+              onClick={() => {
+                onSaveAsDraft({
+                  name, url, urlParts, sizeValue, sizeUnit, category, parentId, isBundle, status, description, genre, thumbnailUrl,
+                });
+              }}
+              className="bg-amber-500/10 text-amber-400 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-amber-500/20 transition-colors cursor-pointer border border-amber-500/20"
+            >
+              Save as Draft
+            </button>
+          )}
           <button
             type="button"
             onClick={onCancel}
