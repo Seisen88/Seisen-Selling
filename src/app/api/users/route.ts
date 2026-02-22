@@ -79,6 +79,7 @@ export async function POST(request: NextRequest) {
       id: userId,
       email,
       role: role || "user",
+      allowed_categories: "Utilities",
     });
 
   if (profileError) {
