@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { FileRecord } from "@/lib/types";
+import { CATEGORIES } from "@/lib/types";
 import { resolveThumbnailUrl, formatFileSize } from "@/lib/utils";
 import SearchBar from "./SearchBar";
 import FileForm from "./FileForm";
@@ -17,6 +18,7 @@ export default function FilesTab({ canDelete = true }: FilesTabProps) {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const perPage = 20;
   const supabase = createClient();
@@ -43,12 +45,16 @@ export default function FilesTab({ canDelete = true }: FilesTabProps) {
     fetchFiles();
   };
 
-  const filtered = files.filter(
-    (f) =>
+  const categories = [...new Set(files.map((f) => f.category))].sort();
+
+  const filtered = files.filter((f) => {
+    const matchesSearch =
       f.file_name.toLowerCase().includes(search.toLowerCase()) ||
       f.category.toLowerCase().includes(search.toLowerCase()) ||
-      f.description?.toLowerCase().includes(search.toLowerCase())
-  );
+      f.description?.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = !selectedCategory || f.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   const totalPages = Math.ceil(filtered.length / perPage);
   const paginated = filtered.slice((page - 1) * perPage, page * perPage);
@@ -61,7 +67,7 @@ export default function FilesTab({ canDelete = true }: FilesTabProps) {
 
   useEffect(() => {
     setPage(1);
-  }, [search]);
+  }, [search, selectedCategory]);
 
   return (
     <div className="space-y-4">
@@ -71,6 +77,37 @@ export default function FilesTab({ canDelete = true }: FilesTabProps) {
         </div>
         <ExportFilesButton files={files} />
       </div>
+
+      {/* Category filter pills */}
+      {categories.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setSelectedCategory(null)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer border ${
+              selectedCategory === null
+                ? "bg-white text-black border-white"
+                : "bg-[#161616] text-gray-400 border-[#1e1e1e] hover:text-white hover:border-[#3a3a3a]"
+            }`}
+          >
+            All
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() =>
+                setSelectedCategory(selectedCategory === cat ? null : cat)
+              }
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer border ${
+                selectedCategory === cat
+                  ? "bg-white text-black border-white"
+                  : "bg-[#161616] text-gray-400 border-[#1e1e1e] hover:text-white hover:border-[#3a3a3a]"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )}
 
       {loading ? (
         <div className="space-y-3">
